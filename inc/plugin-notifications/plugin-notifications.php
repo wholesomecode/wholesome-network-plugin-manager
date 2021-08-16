@@ -21,6 +21,7 @@ function setup() : void {
 	// - JS to mark plugin as active if it has active sites
 	// - Prevent plugin from being activated on single site
 	// - Put it on codecanyon
+	// - Ensure readme is correct and up-to-date
 }
 
 /**

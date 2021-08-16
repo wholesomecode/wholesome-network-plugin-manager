@@ -58,11 +58,11 @@ function render_network_plugin_notifications( $actions, $plugin_file, $plugin_da
 	$active_on_sites_links = array();
 
 	foreach ( $active_on_sites as $site ) {
-		$active_on_sites_links[] = sprintf( '<a href="%s">%s</a>', 'https://test.com', $site['name'] );
+		$active_on_sites_links[] = sprintf( '<a href="%s">%s</a> (<a href="">Deactivate</a>)', 'https://test.com', $site['name'] );
 	}
 
 	// Translators: Active on Sites.
-	$active_message = sprintf( __( 'Active on: %s', 'wholesome-network-enabled-plugins' ), implode( ' | ', $active_on_sites_links ) );
+	$active_message = '<span class="wholesome-network-active-plugins__label">' . __( 'Active on:', 'wholesome-network-enabled-plugins' ) . '</span> ' . implode( ' | ', $active_on_sites_links );
 
 	// Translators: Active on sites list.
 	$actions[ array_key_last( $actions ) ] = sprintf( '%s<span class="wholesome-network-active-plugins">%s</span>', $actions[ array_key_last( $actions ) ], $active_message );

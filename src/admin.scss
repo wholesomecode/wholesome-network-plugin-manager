@@ -1,5 +1,8 @@
 .wholesome-network-active-plugins {
     display: block;
-    color: #000000;
     margin-top: 14px;
+
+    &__label {
+        color: #000000;
+    }
 }

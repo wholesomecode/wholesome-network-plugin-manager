@@ -1,7 +1,9 @@
 .wholesome-network-active-plugins {
   display: block;
-  color: #000000;
   margin-top: 14px;
+}
+.wholesome-network-active-plugins__label {
+  color: #000000;
 }
 
 /*# sourceMappingURL=admin.css.map*/

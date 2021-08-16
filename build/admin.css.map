@@ -1,1 +1,1 @@
-{"version":3,"sources":["webpack:///./src/admin.scss"],"names":[],"mappings":"AAAA;EACI;EACA;EACA;AACJ,C","file":"admin.css","sourcesContent":[".wholesome-network-active-plugins {\n    display: block;\n    color: #000000;\n    margin-top: 14px;\n}"],"sourceRoot":""}
+{"version":3,"sources":["webpack:///./src/admin.scss"],"names":[],"mappings":"AAAA;EACI;EACA;AACJ;AACI;EACI;AACR,C","file":"admin.css","sourcesContent":[".wholesome-network-active-plugins {\n    display: block;\n    margin-top: 14px;\n\n    &__label {\n        color: #000000;\n    }\n}"],"sourceRoot":""}

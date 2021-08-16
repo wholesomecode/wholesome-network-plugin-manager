@@ -1,0 +1,16 @@
+{
+	"apiVersion": 2,
+	"name": "wholesome-network-enabled-plugins/wholesome-network-enabled-plugins",
+	"version": "1.0.0",
+	"title": "Network Enabled Plugins",
+	"category": "text",
+	"icon": "smiley",
+	"description": "View where your plugins are enabled from the Network Plugins screen.",
+	"supports": {
+		"html": false
+	},
+	"textdomain": "wholesome-network-enabled-plugins",
+	"editorScript": "file:./build/index.js",
+	"editorStyle": "file:./build/index.css",
+	"style": "file:./build/style-index.css"
+}

@@ -6,4 +6,18 @@
   color: #000000;
 }
 
+body.plugins-php.network-admin .row-actions span.delete .wholesome-network-active-plugins a {
+  color: #2271b1;
+}
+body.plugins-php.network-admin .row-actions span.delete .wholesome-network-active-plugins a:hover {
+  color: #135e96;
+}
+body.plugins-php.network-admin .plugins .active.active--network th.check-column,
+body.plugins-php.network-admin .plugins .active.active--network td {
+  background-color: #fcf9e8;
+}
+body.plugins-php.network-admin .plugins .active.active--network th.check-column {
+  border-color: #f5e6ab;
+}
+
 /*# sourceMappingURL=admin.css.map*/

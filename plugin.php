@@ -4,7 +4,7 @@
  *
  * Plugin Name:       Network Enabled Plugins
  * Plugin URI:        https://wholesomecode.ltd/plugins/network-enabled-plugins
- * Description:       Network disabled a plugin, only to find it still active on one or more sub-sites? Use this plugin to identify where it is still enabled and quickly deactivate it.
+ * Description:       Network disabled a plugin only to find it still active on one or more sub-sites? Use this plugin to identify where it is still enabled and quickly deactivate it.
  * Requires at least: 5.8
  * Requires PHP:      7.0
  * Version:           1.0.0

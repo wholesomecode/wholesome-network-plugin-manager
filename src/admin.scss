@@ -6,3 +6,27 @@
         color: #000000;
     }
 }
+
+body.plugins-php.network-admin {
+    .row-actions span.delete .wholesome-network-active-plugins {
+        a {
+            color: #2271b1;
+            &:hover {
+                color: #135e96;
+            }
+        }
+    }
+
+    .plugins {
+        .active.active--network {
+            th.check-column,
+            td {
+                background-color: #fcf9e8;
+            }
+
+            th.check-column {
+                border-color: #f5e6ab;
+            }
+        }
+    }
+}

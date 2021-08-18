@@ -9,6 +9,7 @@ namespace Wholesome\NetworkEnabledPlugins\PluginNotifications; // @codingStandar
 
 const REST_ENDPOINT = 'wholesome/network-enabled-plugins/v1';
 
+use const Wholesome\NetworkEnabledPlugins\ROOT_DIR;
 use const Wholesome\NetworkEnabledPlugins\ROOT_FILE;
 
 /**
@@ -29,6 +30,7 @@ function setup() : void {
  */
 function check_if_multisite() {
 	$is_multisite = true;
+	$plugin_path  = str_replace( plugin_dir_path( ROOT_DIR ), '', ROOT_FILE );
 
 	if ( ! is_multisite() ) {
 		$is_multisite = false;
@@ -39,8 +41,8 @@ function check_if_multisite() {
 		</div>
 		<?php
 	}
-
-	if ( ! is_plugin_active_for_network( ROOT_FILE ) ) {
+	
+	if ( is_plugin_active( $plugin_path ) && ! is_plugin_active_for_network( $plugin_path ) ) {
 		$is_multisite              = false;
 		$network_admin_plugins_url = network_admin_url( 'plugins.php' );
 		?>

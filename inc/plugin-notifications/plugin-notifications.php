@@ -9,19 +9,56 @@ namespace Wholesome\NetworkEnabledPlugins\PluginNotifications; // @codingStandar
 
 const REST_ENDPOINT = 'wholesome/network-enabled-plugins/v1';
 
+use const Wholesome\NetworkEnabledPlugins\ROOT_FILE;
+
 /**
  * Setup
  *
  * @return void
  */
 function setup() : void {
+	add_action( 'admin_notices', __NAMESPACE__ . '\\check_if_multisite', 10 );
 	add_filter( 'network_admin_plugin_action_links', __NAMESPACE__ . '\\render_network_plugin_notifications', 10, 4 );
 	add_action( 'rest_api_init', __NAMESPACE__ . '\\register_rest_deactivate_plugin', 10 );
-	// @todo
-	// - Dynamic deactivate link (JS, try no-js link too)
-	// - Prevent plugin from being activated on single site
-	// - Ensure readme is correct and up-to-date
-	// - Put it on codecanyon
+}
+
+/**
+ * Check that the plugin is running in network admin.
+ *
+ * @return bool
+ */
+function check_if_multisite() {
+	$is_multisite = true;
+
+	if ( ! is_multisite() ) {
+		$is_multisite = false;
+		?>
+		<div class="notice notice-error is-dismissible">
+			<?php // Translators: Network Enabled Plugins must be enabled on a multisite network. ?>
+			<p><?php printf( esc_html__( '%1$sNetwork Enabled Plugins%2$s must be enabled on a multisite network.', 'wholesome-network-enabled-plugins' ), '<strong>', '</strong>' ); ?></p>
+		</div>
+		<?php
+	}
+
+	if ( ! is_plugin_active_for_network( ROOT_FILE ) ) {
+		$is_multisite              = false;
+		$network_admin_plugins_url = network_admin_url( 'plugins.php' );
+		?>
+		<div class="notice notice-error is-dismissible">
+			<?php // Translators: Network Enabled Plugins must be enabled on the network plugins page. ?>
+			<p><?php printf( esc_html__( '%1$sNetwork Enabled Plugins%2$s must be activated on the %3$snetwork admin plugins page%4$s.', 'wholesome-network-enabled-plugins' ), '<strong>', '</strong>', '<a href="' . esc_url( $network_admin_plugins_url ) . '">', '</a>' ); ?></p>
+		</div>
+		<?php
+	}
+
+	if ( ! $is_multisite ) {
+		// @codingStandardsIgnoreStart.
+		if ( isset( $_GET['activate'] ) ) { 
+			unset( $_GET['activate'] );
+		}
+		// @codingStandardsIgnoreEnd.
+		deactivate_plugins( ROOT_FILE );
+	}
 }
 
 /**
@@ -52,6 +89,7 @@ function render_network_plugin_notifications( $actions, $plugin_file, $plugin_da
 
 			if ( strpos( $plugin_path, '/' ) ) {
 				$plugin_path = str_replace( '\/', '%2F', $plugin_path );
+				$plugin_path = str_replace( '/', '%2F', $plugin_path );
 			}
 
 			$admin_url        = get_admin_url( $site->blog_id, 'plugins.php' );
@@ -71,7 +109,7 @@ function render_network_plugin_notifications( $actions, $plugin_file, $plugin_da
 				'deactivation_url' => $deactivation_url,
 				'id'               => $site->blog_id,
 				'name'             => get_bloginfo( 'name' ),
-				'plugin'           => str_replace( '/', '--', $plugin_file ),
+				'plugin'           => str_replace( '/', '__', $plugin_file ),
 				'plugins_url'      => $admin_url,
 			);
 		}
@@ -109,14 +147,15 @@ function register_rest_deactivate_plugin() {
 			'callback'            => function ( $request ) {
 				$id     = isset( $request['id'] ) ? esc_attr( $request['id'] ) : null;
 				$plugin = isset( $request['plugin'] ) ? esc_attr( $request['plugin'] ) : null;
+				$plugin = '/' . str_replace( '__', '/', $plugin );
 
-				// switch_to_blog( $id );
+				if ( ! function_exists( 'deactivate_plugins' ) ) {
+					require_once ABSPATH . 'wp-admin/includes/plugin.php';
+				}
 
-				// deactivate_plugins( $plugin );
-
-				// restore_current_blog();
-
-				return 'deactivated';
+				switch_to_blog( $id );
+				deactivate_plugins( $plugin );
+				restore_current_blog();
 			},
 			'methods'             => 'GET',
 			'permission_callback' => function () {

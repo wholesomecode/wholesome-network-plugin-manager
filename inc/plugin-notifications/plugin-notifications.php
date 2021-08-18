@@ -25,8 +25,6 @@ function setup() : void {
 
 /**
  * Check that the plugin is running in network admin.
- *
- * @return bool
  */
 function check_if_multisite() {
 	$is_multisite = true;
@@ -41,7 +39,7 @@ function check_if_multisite() {
 		</div>
 		<?php
 	}
-	
+
 	if ( is_plugin_active( $plugin_path ) && ! is_plugin_active_for_network( $plugin_path ) ) {
 		$is_multisite              = false;
 		$network_admin_plugins_url = network_admin_url( 'plugins.php' );

@@ -19,5 +19,9 @@ body.plugins-php.network-admin .plugins .active.active--network td {
 body.plugins-php.network-admin .plugins .active.active--network th.check-column {
   border-color: #f5e6ab;
 }
+body.plugins-php.network-admin .plugins .active.active--network + .plugin-update-tr td {
+  background-color: #fcf9e8;
+  border-color: #f5e6ab;
+}
 
 /*# sourceMappingURL=admin.css.map*/

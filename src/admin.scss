@@ -28,5 +28,10 @@ body.plugins-php.network-admin {
                 border-color: #f5e6ab;
             }
         }
+
+        .active.active--network + .plugin-update-tr td {
+            background-color: #fcf9e8;
+            border-color: #f5e6ab;
+        }
     }
 }

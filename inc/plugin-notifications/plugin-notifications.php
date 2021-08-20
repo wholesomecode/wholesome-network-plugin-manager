@@ -7,6 +7,10 @@
 
 namespace Wholesome\NetworkEnabledPlugins\PluginNotifications; // @codingStandardsIgnoreLine
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 const REST_ENDPOINT = 'wholesome/network-enabled-plugins/v1';
 
 use const Wholesome\NetworkEnabledPlugins\ROOT_DIR;

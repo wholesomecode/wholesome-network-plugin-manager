@@ -26,7 +26,12 @@ const PLUGIN_VERSION = '1.0.0';
 const ROOT_DIR       = __DIR__;
 const ROOT_FILE      = __FILE__;
 
+require_once ROOT_DIR . '/inc/licensing/licensing.php';
 require_once ROOT_DIR . '/inc/main.php';
+
+if ( ! Licensing\is_active() ) {
+	return;
+}
 
 /**
  * Load Plugin

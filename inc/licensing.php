@@ -16,6 +16,7 @@ if ( ! defined( 'WP_FS__PRODUCT_8886_MULTISITE' ) ) {
 	define( 'WP_FS__PRODUCT_8886_MULTISITE', true );
 }
 
+use const Wholesome\NetworkEnabledPlugins\PLUGIN_SLUG;
 use const Wholesome\NetworkEnabledPlugins\ROOT_DIR;
 
 /**
@@ -24,7 +25,7 @@ use const Wholesome\NetworkEnabledPlugins\ROOT_DIR;
  * @return void
  */
 function setup() : void {
-	add_filter( 'fs_redirect_on_activation_wholesome-network-enabled-plugins', __NAMESPACE__ . '\\redirect_for_multisite_only', 10 );
+	add_filter( 'fs_redirect_on_activation_' . PLUGIN_SLUG, 'Activation\\limit_redirect', 10 );
 	License::get_instance();
 }
 
@@ -35,15 +36,6 @@ function setup() : void {
  */
 function is_active() {
 	return ( License::get_instance() )->is_active();
-}
-
-/**
- * Redirect for multisite only.
- *
- * @return bool
- */
-function redirect_for_multisite_only() {
-	return is_multisite() && is_network_admin();
 }
 
 /**

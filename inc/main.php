@@ -33,10 +33,17 @@ function setup() : void {
 	 *
 	 * Load the namespace of each of the plugin features.
 	 */
-	require_once ROOT_DIR . '/inc/plugin-notifications/plugin-notifications.php';
+	require_once ROOT_DIR . '/inc/activation.php';
+	require_once ROOT_DIR . '/inc/dashboard.php';
 
 	// Run features.
-	PluginNotifications\setup();
+	Activation\setup();
+
+	if ( ! Licensing\is_active() ) {
+		return;
+	}
+
+	Dashboard\setup();
 }
 
 /**

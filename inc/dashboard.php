@@ -1,11 +1,11 @@
 <?php
 /**
- * Plugin Notifications file.
+ * Dashboard file.
  *
  * @package wholesome-network-enabled-plugins
  */
 
-namespace Wholesome\NetworkEnabledPlugins\PluginNotifications; // @codingStandardsIgnoreLine
+namespace Wholesome\NetworkEnabledPlugins\Dashboard; // @codingStandardsIgnoreLine
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -13,64 +13,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 const REST_ENDPOINT = 'wholesome/network-enabled-plugins/v1';
 
-use Wholesome\NetworkEnabledPlugins\Licensing;
-
-use const Wholesome\NetworkEnabledPlugins\ROOT_DIR;
-use const Wholesome\NetworkEnabledPlugins\ROOT_FILE;
-
 /**
  * Setup
  *
  * @return void
  */
 function setup() : void {
-
-	add_action( 'admin_notices', __NAMESPACE__ . '\\check_if_multisite', 10 );
-
-	if ( ! Licensing\is_active() ) {
-		return;
-	}
-
 	add_filter( 'network_admin_plugin_action_links', __NAMESPACE__ . '\\render_network_plugin_notifications', 10, 4 );
 	add_action( 'rest_api_init', __NAMESPACE__ . '\\register_rest_deactivate_plugin', 10 );
-}
-
-/**
- * Check that the plugin is running in network admin.
- */
-function check_if_multisite() {
-	$is_multisite = true;
-	$plugin_path  = str_replace( plugin_dir_path( ROOT_DIR ), '', ROOT_FILE );
-
-	if ( ! is_multisite() ) {
-		$is_multisite = false;
-		?>
-		<div class="notice notice-error is-dismissible">
-			<?php // Translators: Network Enabled Plugins must be enabled on a multisite network. ?>
-			<p><?php printf( esc_html__( '%1$sNetwork Enabled Plugins%2$s must be enabled on a multisite network.', 'wholesome-network-enabled-plugins' ), '<strong>', '</strong>' ); ?></p>
-		</div>
-		<?php
-	}
-
-	if ( is_plugin_active( $plugin_path ) && ! is_plugin_active_for_network( $plugin_path ) ) {
-		$is_multisite              = false;
-		$network_admin_plugins_url = network_admin_url( 'plugins.php' );
-		?>
-		<div class="notice notice-error is-dismissible">
-			<?php // Translators: Network Enabled Plugins must be enabled on the network plugins page. ?>
-			<p><?php printf( esc_html__( '%1$sNetwork Enabled Plugins%2$s must be activated on the %3$snetwork admin plugins page%4$s.', 'wholesome-network-enabled-plugins' ), '<strong>', '</strong>', '<a href="' . esc_url( $network_admin_plugins_url ) . '">', '</a>' ); ?></p>
-		</div>
-		<?php
-	}
-
-	if ( ! $is_multisite ) {
-		// @codingStandardsIgnoreStart.
-		if ( isset( $_GET['activate'] ) ) { 
-			unset( $_GET['activate'] );
-		}
-		// @codingStandardsIgnoreEnd.
-		deactivate_plugins( ROOT_FILE );
-	}
 }
 
 /**

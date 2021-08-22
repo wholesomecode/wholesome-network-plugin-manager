@@ -25,7 +25,7 @@ use const Wholesome\NetworkEnabledPlugins\ROOT_DIR;
  * @return void
  */
 function setup() : void {
-	add_filter( 'fs_redirect_on_activation_' . PLUGIN_SLUG, 'Activation\\limit_redirect', 10 );
+	add_filter( 'fs_redirect_on_activation_' . PLUGIN_SLUG, 'Wholesome\NetworkEnabledPlugins\Activation\\limit_redirect', 10 );
 	License::get_instance();
 }
 

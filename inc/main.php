@@ -82,7 +82,7 @@ function plugin_updated() : void {
 function enqueue_admin_assets() : void {
 
 	$screen = get_current_screen();
-	if ( 'plugins-network' !== $screen->base ) {
+	if ( 'plugins-network' !== $screen->base && 'admin_page_' . PLUGIN_SLUG . '-network' !== $screen->base ) {
 		return;
 	}
 

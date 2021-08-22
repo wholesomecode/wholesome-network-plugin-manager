@@ -13,6 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 use Wholesome\NetworkEnabledPlugins\Licensing;
 
+use const Wholesome\NetworkEnabledPlugins\PLUGIN_SLUG;
 use const Wholesome\NetworkEnabledPlugins\ROOT_DIR;
 use const Wholesome\NetworkEnabledPlugins\ROOT_FILE;
 
@@ -23,7 +24,13 @@ use const Wholesome\NetworkEnabledPlugins\ROOT_FILE;
  */
 function setup() : void {
 
+	$fs_priority = 10;
+	if ( defined( 'WP_FS__LOWEST_PRIORITY' ) ) {
+		$fs_priority = WP_FS__LOWEST_PRIORITY + 1;
+	}
+
 	add_action( 'admin_notices', __NAMESPACE__ . '\\check_if_multisite', 10 );
+	add_action( 'network_admin_menu', __NAMESPACE__ . '\\order_menu_items', $fs_priority );
 
 	if ( ! Licensing\is_active() ) {
 		return;
@@ -75,4 +82,40 @@ function check_if_multisite() {
  */
 function limit_redirect() {
 	return is_multisite() && is_network_admin();
+}
+
+/**
+ * Remove Activation Action.
+ *
+ * @param array $actions Actions.
+ * @return array
+ */
+function remove_activation_action( $actions ) {
+	unset( $actions[ 'activate-license ' . PLUGIN_SLUG ] );
+	return $actions;
+}
+
+/**
+ * Order Menu Items.
+ */
+function order_menu_items() {
+	remove_menu_page( PLUGIN_SLUG );
+	remove_submenu_page( PLUGIN_SLUG, PLUGIN_SLUG . '-account' );
+
+	$plugin_title = esc_html__( 'Network Enabled Plugins', 'wholesome-network-enabled-plugins' );
+	$licensing    = Licensing\get_instance();
+	$url = PLUGIN_SLUG . '-account';
+
+	add_submenu_page(
+		'plugins.php',
+		$plugin_title,
+		$plugin_title,
+		'manage_options',
+		$url,
+		array( $licensing , '_account_page_render' ),
+	);
+
+	if ( $url === $_GET['page'] ) {
+		$licensing->_account_page_load();
+	}
 }

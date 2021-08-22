@@ -18,6 +18,7 @@ if ( ! defined( 'WP_FS__PRODUCT_8886_MULTISITE' ) ) {
 
 use const Wholesome\NetworkEnabledPlugins\PLUGIN_SLUG;
 use const Wholesome\NetworkEnabledPlugins\ROOT_DIR;
+use const Wholesome\NetworkEnabledPlugins\ROOT_FILE;
 
 /**
  * Setup
@@ -26,6 +27,7 @@ use const Wholesome\NetworkEnabledPlugins\ROOT_DIR;
  */
 function setup() : void {
 	add_filter( 'fs_redirect_on_activation_' . PLUGIN_SLUG, 'Wholesome\NetworkEnabledPlugins\Activation\\limit_redirect', 10 );
+	add_filter( 'plugin_action_links_' . basename( ROOT_DIR ) . '/' . basename( ROOT_FILE ), 'Wholesome\NetworkEnabledPlugins\Activation\\hide_activation_link', 10 );
 	License::get_instance();
 }
 
@@ -36,6 +38,15 @@ function setup() : void {
  */
 function is_active() {
 	return ( License::get_instance() )->is_active();
+}
+
+/**
+ * Get License Instance.
+ *
+ * @return Object
+ */
+function get_instance() {
+	return ( License::get_instance() )->get_license();
 }
 
 /**
@@ -106,4 +117,18 @@ class License {
 	public function is_active() {
 		return $this->license->can_use_premium_code();
 	}
+
+	/**
+	 * Get License.
+	 *
+	 * @return object
+	 */
+	public function get_license() {
+		return $this->license;
+	}
 }
+
+/**
+ * Run.
+ */
+setup();

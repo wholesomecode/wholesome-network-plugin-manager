@@ -29,11 +29,12 @@ const ROOT_FILE      = __FILE__;
 require_once ROOT_DIR . '/inc/licensing/licensing.php';
 require_once ROOT_DIR . '/inc/main.php';
 
-if ( ! Licensing\is_active() ) {
-	return;
-}
+/**
+ * Do licensing.
+ */
+Licensing\setup();
 
 /**
- * Load Plugin
+ * Load Plugin.
  */
 add_action( 'plugins_loaded', __NAMESPACE__ . '\\setup' );

@@ -33,13 +33,9 @@ function setup() : void {
 	 *
 	 * Load the namespace of each of the plugin features.
 	 */
-
-	/**
-	 * Plugin Notifications.
-	 *
-	 * Display plugin notifications.
-	 */
 	require_once ROOT_DIR . '/inc/plugin-notifications/plugin-notifications.php';
+
+	// Run features.
 	PluginNotifications\setup();
 }
 

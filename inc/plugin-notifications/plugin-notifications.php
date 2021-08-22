@@ -13,6 +13,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 const REST_ENDPOINT = 'wholesome/network-enabled-plugins/v1';
 
+use Wholesome\NetworkEnabledPlugins\Licensing;
+
 use const Wholesome\NetworkEnabledPlugins\ROOT_DIR;
 use const Wholesome\NetworkEnabledPlugins\ROOT_FILE;
 
@@ -22,7 +24,13 @@ use const Wholesome\NetworkEnabledPlugins\ROOT_FILE;
  * @return void
  */
 function setup() : void {
+
 	add_action( 'admin_notices', __NAMESPACE__ . '\\check_if_multisite', 10 );
+
+	if ( ! Licensing\is_active() ) {
+		return;
+	}
+
 	add_filter( 'network_admin_plugin_action_links', __NAMESPACE__ . '\\render_network_plugin_notifications', 10, 4 );
 	add_action( 'rest_api_init', __NAMESPACE__ . '\\register_rest_deactivate_plugin', 10 );
 }

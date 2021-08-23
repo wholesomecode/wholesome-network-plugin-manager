@@ -34,4 +34,23 @@ body.plugins-php.network-admin .plugins .active.active--network + .plugin-update
   border-color: #f5e6ab;
 }
 
+/**
+ * Buttons.
+ */
+button.network-enabled-plugins {
+  background-color: unset;
+  border: unset;
+  color: #2271b1;
+  cursor: pointer;
+  margin: unset;
+  padding: unset;
+}
+button.network-enabled-plugins:hover, button.network-enabled-plugins:focus {
+  color: #135e96;
+}
+button.network-enabled-plugins:focus {
+  box-shadow: 0 0 0 1px #4f94d4, 0 0 2px 1px rgba(79, 148, 212, 0.8);
+  outline: 1px solid transparent;
+}
+
 /*# sourceMappingURL=admin.css.map*/

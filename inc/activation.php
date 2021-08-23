@@ -92,6 +92,20 @@ function limit_redirect() {
  */
 function remove_activation_action( $actions ) {
 	unset( $actions[ 'activate-license ' . PLUGIN_SLUG ] );
+	unset( $actions[ 'opt-in-or-opt-out ' . PLUGIN_SLUG ] );
+	return $actions;
+}
+
+/**
+ * Alter Network Actions.
+ *
+ * @param array $actions Actions.
+ * @return array
+ */
+function alter_network_actions( $actions ) {
+	unset( $actions[ 'activate-license ' . PLUGIN_SLUG ] );
+	unset( $actions[ 'opt-in-or-opt-out ' . PLUGIN_SLUG ] );
+	$actions['settings'] = sprintf( '<a href="settings.php?page=%1$s-account">%2$s</a>', PLUGIN_SLUG, esc_html__( 'Settings', 'wholesome-network-enabled-plugins' ) );
 	return $actions;
 }
 
@@ -107,7 +121,7 @@ function order_menu_items() {
 	$url = PLUGIN_SLUG . '-account';
 
 	add_submenu_page(
-		'plugins.php',
+		'settings.php',
 		$plugin_title,
 		$plugin_title,
 		'manage_options',
@@ -115,7 +129,7 @@ function order_menu_items() {
 		array( $licensing , '_account_page_render' ),
 	);
 
-	if ( $url === $_GET['page'] ) {
+	if ( isset( $_GET['page'] ) && $url === $_GET['page'] ) {
 		$licensing->_account_page_load();
 	}
 }

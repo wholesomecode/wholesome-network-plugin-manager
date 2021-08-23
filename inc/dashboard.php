@@ -38,7 +38,46 @@ function render_network_plugin_notifications( $actions, $plugin_file, $plugin_da
 		return $actions;
 	}
 
-	$sites           = get_sites();
+	$sites            = get_sites();
+	$active_on_sites  = get_active_on_sites( $sites, $plugin_file );
+	$toggle_panel     = '<div class="network-enabled-plugins__toggle-panel" style="display:none;" aria-hidden="true">Testing</div>';
+	$link_inactive    = esc_html__( 'Site Activate', 'wholesome-network-enabled-plugins' );
+	$link_active      = esc_html__( 'Site Deactivate', 'wholesome-network-enabled-plugins' );
+
+	if ( empty( $active_on_sites ) ) {
+		$action_link = sprintf( '<button class="network-enabled-plugins" data-toggle-network-panel>%s%s</button>', $link_inactive, $toggle_panel );
+	} else {
+		$action_link = sprintf( '<button class="network-enabled-plugins active" data-toggle-network-panel>%s%s</button>', $link_active, $toggle_panel );
+	}
+
+	array_unshift( $actions, $action_link );
+
+	// $actions['network-enabled-plugins'] = $action_link;
+
+	// $active_on_sites_links = array();
+
+	// foreach ( $active_on_sites as $site ) {
+	// 	$rest_path               = sprintf( '%s/site/%s/plugin/%s', get_rest_url() . REST_ENDPOINT, $site['id'], $site['plugin'] );
+	// 	$rest_path               = add_query_arg( '_wpnonce', wp_create_nonce( 'wp_rest' ), $rest_path );
+	// 	$active_on_sites_links[] = sprintf( '<a href="%s">%s</a> (<a class="wholesome-network-active-plugins__deactivate" href="%s" data-deactivate="%s">%s</a>)', $site['plugins_url'], $site['name'], $site['deactivation_url'], $rest_path, esc_html__( 'Deactivate', 'wholesome-network-enabled-plugins' ) );
+	// }
+
+	// // Translators: Active on Sites.
+	// $active_message = sprintf( '<span class="wholesome-network-active-plugins__label">%s</span> ', esc_html__( 'Active on:', 'wholesome-network-enabled-plugins' ) ) . implode( ' | ', $active_on_sites_links );
+
+	// // Translators: Active on sites list.
+	// $actions[ array_key_last( $actions ) ] = sprintf( '%s<span class="wholesome-network-active-plugins">%s</span>', $actions[ array_key_last( $actions ) ], $active_message );
+	return $actions;
+}
+
+/**
+ * Get Active on Sites.
+ *
+ * @param array  $sites        Sites.
+ * @param string $plugin_file Plugin File.
+ * @return array
+ */
+function get_active_on_sites( $sites, $plugin_file ) {
 	$active_on_sites = array();
 
 	foreach ( $sites as $site ) {
@@ -78,24 +117,7 @@ function render_network_plugin_notifications( $actions, $plugin_file, $plugin_da
 		restore_current_blog();
 	}
 
-	if ( empty( $active_on_sites ) ) {
-		return $actions;
-	}
-
-	$active_on_sites_links = array();
-
-	foreach ( $active_on_sites as $site ) {
-		$rest_path               = sprintf( '%s/site/%s/plugin/%s', get_rest_url() . REST_ENDPOINT, $site['id'], $site['plugin'] );
-		$rest_path               = add_query_arg( '_wpnonce', wp_create_nonce( 'wp_rest' ), $rest_path );
-		$active_on_sites_links[] = sprintf( '<a href="%s">%s</a> (<a class="wholesome-network-active-plugins__deactivate" href="%s" data-deactivate="%s">%s</a>)', $site['plugins_url'], $site['name'], $site['deactivation_url'], $rest_path, esc_html__( 'Deactivate', 'wholesome-network-enabled-plugins' ) );
-	}
-
-	// Translators: Active on Sites.
-	$active_message = sprintf( '<span class="wholesome-network-active-plugins__label">%s</span> ', esc_html__( 'Active on:', 'wholesome-network-enabled-plugins' ) ) . implode( ' | ', $active_on_sites_links );
-
-	// Translators: Active on sites list.
-	$actions[ array_key_last( $actions ) ] = sprintf( '%s<span class="wholesome-network-active-plugins">%s</span>', $actions[ array_key_last( $actions ) ], $active_message );
-	return $actions;
+	return $active_on_sites;
 }
 
 /**

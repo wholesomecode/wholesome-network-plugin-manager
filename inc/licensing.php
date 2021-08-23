@@ -27,7 +27,8 @@ use const Wholesome\NetworkEnabledPlugins\ROOT_FILE;
  */
 function setup() : void {
 	add_filter( 'fs_redirect_on_activation_' . PLUGIN_SLUG, 'Wholesome\NetworkEnabledPlugins\Activation\\limit_redirect', 10 );
-	add_filter( 'plugin_action_links_' . basename( ROOT_DIR ) . '/' . basename( ROOT_FILE ), 'Wholesome\NetworkEnabledPlugins\Activation\\hide_activation_link', 10 );
+	add_filter( 'plugin_action_links_' . basename( ROOT_DIR ) . '/' . basename( ROOT_FILE ), 'Wholesome\NetworkEnabledPlugins\Activation\\remove_activation_action', 100 );
+	add_filter( 'network_admin_plugin_action_links_' . basename( ROOT_DIR ) . '/' . basename( ROOT_FILE ), 'Wholesome\NetworkEnabledPlugins\Activation\\alter_network_actions', 100 );
 	License::get_instance();
 }
 
@@ -88,9 +89,13 @@ class License {
 				'has_paid_plans'   => true,
 				'is_org_compliant' => false,
 				'menu'             => array(
-					'first-path' => 'plugins.php',
-					'contact'    => false,
-					'support'    => false,
+					'menu' => array(
+						'slug'       => 'settings.php',
+						'first-path' => 'settings.php?page=wholesome-network-enabled-plugins-account',
+						'contact'    => false,
+						'support'    => false,
+						'network'    => true,
+					),
 				),
 			)
 		);

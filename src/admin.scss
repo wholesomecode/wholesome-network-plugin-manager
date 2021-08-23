@@ -47,3 +47,24 @@ body.plugins-php.network-admin {
         }
     }
 }
+
+/**
+ * Buttons.
+ */
+button.network-enabled-plugins {
+    background-color: unset;
+    border: unset;
+    color: #2271b1;
+    cursor: pointer;
+    margin: unset;
+    padding: unset;
+
+    &:hover, &:focus {
+        color: #135e96;
+    }
+
+    &:focus {
+        box-shadow: 0 0 0 1px #4f94d4, 0 0 2px 1px rgb(79 148 212 / 80%);
+        outline: 1px solid transparent;
+    }
+}

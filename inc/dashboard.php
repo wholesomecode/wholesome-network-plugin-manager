@@ -6,10 +6,11 @@
  */
 
 // @todo.
-// - Rename plugin to something more sensible
-// - Refactor CSS
-// - Sort the settings page (remove title, and perhaps make a parent settings page)
+// - Rename plugin to something more sensible.
+// - Refactor CSS.
+// - Sort the settings page (remove title, and perhaps make a parent settings page).
 // - Sanity check all files and make sure everything is in its right place.
+// - Perhaps show a message once plugin activated on sub site.
 
 namespace Wholesome\NetworkEnabledPlugins\Dashboard; // @codingStandardsIgnoreLine
 

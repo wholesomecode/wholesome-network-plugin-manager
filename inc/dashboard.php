@@ -11,6 +11,7 @@
 // - Sort the settings page (remove title, and perhaps make a parent settings page).
 // - Sanity check all files and make sure everything is in its right place.
 // - Perhaps show a message once plugin activated on sub site.
+// - Perhaps add a line (or border) from labels to toggle boxes to better indicate which is which.
 
 namespace Wholesome\NetworkEnabledPlugins\Dashboard; // @codingStandardsIgnoreLine
 

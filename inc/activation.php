@@ -104,7 +104,6 @@ function remove_activation_action( $actions ) {
  */
 function alter_network_actions( $actions ) {
 	unset( $actions[ 'activate-license ' . PLUGIN_SLUG ] );
-	unset( $actions[ 'opt-in-or-opt-out ' . PLUGIN_SLUG ] );
 	$actions['settings'] = sprintf( '<a href="settings.php?page=%1$s-account">%2$s</a>', PLUGIN_SLUG, esc_html__( 'Settings', 'wholesome-network-enabled-plugins' ) );
 	return $actions;
 }

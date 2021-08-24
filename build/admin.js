@@ -113,7 +113,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   wholesomeHelpers.deactivatePluginLinks();
-  wholesomeHelpers.addNetworkActiveClass();
+  wholesomeHelpers.setNetworkActiveStatus();
   wholesomeHelpers.detachPanel();
   wholesomeHelpers.handlePanelToggleClick();
 });
@@ -126,7 +126,7 @@ document.addEventListener('DOMContentLoaded', () => {
  * @returns {object}
  */
 
-wholesomeHelpers.deactivatePluginFetch = async function (path) {
+wholesomeHelpers.toggleActivationPluginFetch = async function (path) {
   try {
     const response = await fetch(path);
     return response;
@@ -143,15 +143,18 @@ wholesomeHelpers.deactivatePluginFetch = async function (path) {
 
 
 wholesomeHelpers.deactivatePluginLinks = function () {
-  const deactivateLinks = document.querySelectorAll('[data-deactivate]');
-  deactivateLinks.forEach(link => {
-    link.addEventListener('click', e => {
+  const deactivateCheckboxes = document.querySelectorAll('[data-deactivate]');
+  deactivateCheckboxes.forEach(checkbox => {
+    checkbox.addEventListener('change', e => {
       e.preventDefault();
-      const apiPath = link.attributes['data-deactivate'].value;
-      wholesomeHelpers.deactivatePluginFetch(apiPath).then(() => {
-        location.reload();
-        return;
-      });
+
+      if (e.target.checked) {
+        wholesomeHelpers.toggleActivationPluginFetch(e.target.attributes['data-activate'].value);
+      } else {
+        wholesomeHelpers.toggleActivationPluginFetch(e.target.attributes['data-deactivate'].value);
+      }
+
+      wholesomeHelpers.setNetworkActiveStatus();
       return false;
     });
   });
@@ -163,19 +166,27 @@ wholesomeHelpers.deactivatePluginLinks = function () {
  */
 
 
-wholesomeHelpers.addNetworkActiveClass = function () {
+wholesomeHelpers.setNetworkActiveStatus = function () {
   const tableRows = document.querySelectorAll('table tr');
   tableRows.forEach(row => {
-    if (row.querySelector('.network-enabled-plugins.active')) {
+    var text = row.querySelector('.network-enabled-plugins__text');
+
+    if (row.querySelector('.network-enabled-plugins__toggle-panel input:checked')) {
       row.classList.remove('inactive');
       row.classList.add('active');
       row.classList.add('active--network');
-    }
 
-    if (row.querySelector('.network-enabled-plugins:not(.active)')) {
+      if (text) {
+        row.querySelector('.network-enabled-plugins__text').innerHTML = WholesomeNetworkEnabledPluginsSettings.deactivateString;
+      }
+    } else {
       row.classList.remove('active');
       row.classList.remove('active--network');
       row.classList.add('inactive');
+
+      if (text) {
+        row.querySelector('.network-enabled-plugins__text').innerHTML = WholesomeNetworkEnabledPluginsSettings.activateString;
+      }
     }
   });
 };
@@ -192,9 +203,16 @@ wholesomeHelpers.handlePanelToggleClick = function () {
   const buttons = document.querySelectorAll('button[data-toggle-network-panel]');
   buttons.forEach(button => {
     button.addEventListener('click', e => {
-      const td = e.target.closest('td');
       e.preventDefault();
-      wholesomeHelpers.slideDown(td.querySelector('.network-enabled-plugins__toggle-panel'));
+      const td = e.target.closest('td');
+      const panel = td.querySelector('.network-enabled-plugins__toggle-panel');
+
+      if ('none' === panel.style.display) {
+        wholesomeHelpers.slideDown(panel);
+      } else {
+        wholesomeHelpers.slideUp(panel);
+      }
+
       return false;
     });
   });
@@ -217,7 +235,7 @@ wholesomeHelpers.slideDown = function (element) {
   setTimeout(function () {
     element.classList.remove('slide-down');
     element.style.height = '';
-  }, 500);
+  }, 250);
 };
 /**
  * Slide up with JQuery and JS.
@@ -239,7 +257,7 @@ wholesomeHelpers.slideUp = function (element) {
     element.style.display = 'none';
     element.classList.remove('slide-up');
     element.style.height = '';
-  }, 500);
+  }, 250);
 };
 
 /***/ }),

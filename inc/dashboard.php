@@ -38,86 +38,62 @@ function render_network_plugin_notifications( $actions, $plugin_file, $plugin_da
 		return $actions;
 	}
 
-	$sites            = get_sites();
-	$active_on_sites  = get_active_on_sites( $sites, $plugin_file );
-	$toggle_panel     = '<div class="network-enabled-plugins__toggle-panel" style="display:none;" aria-hidden="true">Testing</div>';
-	$link_inactive    = esc_html__( 'Site Activate', 'wholesome-network-enabled-plugins' );
-	$link_active      = esc_html__( 'Site Deactivate', 'wholesome-network-enabled-plugins' );
+	$toggle_panel       = get_toggle_panel( $plugin_file );
+	$link_inactive      = esc_html__( 'Site Activate', 'wholesome-network-enabled-plugins' );
+	$link_active        = esc_html__( 'Site Deactivate', 'wholesome-network-enabled-plugins' );
+	$has_checked_inputs = strpos( $toggle_panel, 'checked="checked"' ) || strpos( $toggle_panel, "checked='checked'" );
 
-	if ( empty( $active_on_sites ) ) {
-		$action_link = sprintf( '<button class="network-enabled-plugins" data-toggle-network-panel>%s%s</button>', $link_inactive, $toggle_panel );
+	if ( empty( $has_checked_inputs ) ) {
+		$action_link = sprintf( '<button class="network-enabled-plugins" data-toggle-network-panel><span class="network-enabled-plugins__text">%s</span>%s</button>', $link_inactive, $toggle_panel );
 	} else {
-		$action_link = sprintf( '<button class="network-enabled-plugins active" data-toggle-network-panel>%s%s</button>', $link_active, $toggle_panel );
+		$action_link = sprintf( '<button class="network-enabled-plugins active" data-toggle-network-panel><span class="network-enabled-plugins__text">%s</span>%s</button>', $link_active, $toggle_panel );
 	}
 
-	array_unshift( $actions, $action_link );
+	$activation_key = array_search( 'activate', array_keys( $actions ) );
 
-	// $actions['network-enabled-plugins'] = $action_link;
+	$actions = array_slice( $actions, 0, $activation_key + 1, true ) +
+		array( 'activate-site' => $action_link ) +
+		array_slice( $actions, 3, count( $actions ) - $activation_key + 1, true );
 
-	// $active_on_sites_links = array();
-
-	// foreach ( $active_on_sites as $site ) {
-	// 	$rest_path               = sprintf( '%s/site/%s/plugin/%s', get_rest_url() . REST_ENDPOINT, $site['id'], $site['plugin'] );
-	// 	$rest_path               = add_query_arg( '_wpnonce', wp_create_nonce( 'wp_rest' ), $rest_path );
-	// 	$active_on_sites_links[] = sprintf( '<a href="%s">%s</a> (<a class="wholesome-network-active-plugins__deactivate" href="%s" data-deactivate="%s">%s</a>)', $site['plugins_url'], $site['name'], $site['deactivation_url'], $rest_path, esc_html__( 'Deactivate', 'wholesome-network-enabled-plugins' ) );
-	// }
-
-	// // Translators: Active on Sites.
-	// $active_message = sprintf( '<span class="wholesome-network-active-plugins__label">%s</span> ', esc_html__( 'Active on:', 'wholesome-network-enabled-plugins' ) ) . implode( ' | ', $active_on_sites_links );
-
-	// // Translators: Active on sites list.
-	// $actions[ array_key_last( $actions ) ] = sprintf( '%s<span class="wholesome-network-active-plugins">%s</span>', $actions[ array_key_last( $actions ) ], $active_message );
 	return $actions;
 }
 
 /**
- * Get Active on Sites.
+ * Get Toggle Panel.
  *
- * @param array  $sites        Sites.
  * @param string $plugin_file Plugin File.
- * @return array
+ * @return string
  */
-function get_active_on_sites( $sites, $plugin_file ) {
-	$active_on_sites = array();
+function get_toggle_panel( $plugin_file ) {
+	$sites = get_sites();
 
-	foreach ( $sites as $site ) {
-
-		switch_to_blog( $site->blog_id );
-
-		if ( is_plugin_active( $plugin_file ) ) {
-
-			$plugin_path = $plugin_file;
-
-			if ( strpos( $plugin_path, '/' ) ) {
-				$plugin_path = str_replace( '\/', '%2F', $plugin_path );
-				$plugin_path = str_replace( '/', '%2F', $plugin_path );
-			}
-
-			$admin_url        = get_admin_url( $site->blog_id, 'plugins.php' );
-			$deactivation_url = add_query_arg(
-				array(
-					'action'        => 'deactivate',
-					'paged'         => 1,
-					'plugin'        => $plugin_path,
-					'plugin_status' => 'all',
-					's'             => '',
-				),
-				$admin_url
-			);
-			$deactivation_url = wp_nonce_url( $deactivation_url, sprintf( 'deactivate-plugin_%s', $plugin_path ) );
-
-			$active_on_sites[] = array(
-				'deactivation_url' => $deactivation_url,
-				'id'               => $site->blog_id,
-				'name'             => get_bloginfo( 'name' ),
-				'plugin'           => str_replace( '/', '__', $plugin_file ),
-				'plugins_url'      => $admin_url,
-			);
+	ob_start();
+	?>
+	<div class="network-enabled-plugins__toggle-panel" style="display:none;" aria-hidden="true">
+		<?php
+		foreach ( $sites as $site ) {
+			switch_to_blog( $site->blog_id );
+			$toggle_path = sprintf( '%s/action/site/%s/plugin/%s', get_rest_url() . REST_ENDPOINT, $site->blog_id, str_replace( '/', '__', $plugin_file ) );
+			$toggle_path = add_query_arg( '_wpnonce', wp_create_nonce( 'wp_rest' ), $toggle_path );
+			?>
+			<p class="network-enabled-plugins__row">
+				<input 
+					<?php checked( is_plugin_active( $plugin_file ), true ); ?> 
+					data-activate="<?php echo esc_url( str_replace( '/action/', '/activate/', $toggle_path ) ); ?>"
+					data-deactivate="<?php echo esc_url( str_replace( '/action/', '/deactivate/', $toggle_path ) ); ?>"
+					id="network-enabled-plugins__activation-toggle-<?php echo esc_attr( $site->blog_id ); ?>"
+					type="checkbox"
+					id="network-enabled-plugins__activation-toggle-<?php echo esc_attr( $site->blog_id ); ?>"
+				/> 
+				<label for="network-enabled-plugins__activation-toggle-<?php echo esc_attr( $site->blog_id ); ?>"><?php echo esc_html( get_bloginfo( 'name' ) ); ?></label>
+			</p>
+			<?php
+			restore_current_blog();
 		}
-		restore_current_blog();
-	}
-
-	return $active_on_sites;
+		?>
+	</div>
+	<?php
+	return ob_get_clean();
 }
 
 /**
@@ -126,19 +102,24 @@ function get_active_on_sites( $sites, $plugin_file ) {
 function register_rest_deactivate_plugin() {
 	register_rest_route(
 		REST_ENDPOINT,
-		'/site/(?P<id>([0-9])+)/plugin/(?P<plugin>([A-Za-z0-9\_\?\.\-])+)/',
+		'/(?P<action>([a-z])+)/site/(?P<id>([0-9])+)/plugin/(?P<plugin>([A-Za-z0-9\_\?\.\-])+)/',
 		array(
 			'callback'            => function ( $request ) {
+				$action = isset( $request['action'] ) ? esc_attr( $request['action'] ) : null;
 				$id     = isset( $request['id'] ) ? esc_attr( $request['id'] ) : null;
 				$plugin = isset( $request['plugin'] ) ? esc_attr( $request['plugin'] ) : null;
 				$plugin = '/' . str_replace( '__', '/', $plugin );
 
-				if ( ! function_exists( 'deactivate_plugins' ) ) {
+				if ( ! function_exists( 'activate_plugins' ) || ! function_exists( 'deactivate_plugins' ) ) {
 					require_once ABSPATH . 'wp-admin/includes/plugin.php';
 				}
 
 				switch_to_blog( $id );
-				deactivate_plugins( $plugin );
+				if ( 'deactivate' === $action ) {
+					deactivate_plugins( $plugin );
+				} else {
+					activate_plugins( $plugin );
+				}
 				restore_current_blog();
 			},
 			'methods'             => 'GET',

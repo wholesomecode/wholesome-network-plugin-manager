@@ -53,4 +53,31 @@ button.network-enabled-plugins:focus {
   outline: 1px solid transparent;
 }
 
+/**
+ * Panel.
+ */
+.network-enabled-plugins__toggle-panel {
+  overflow: hidden;
+}
+
+/**
+ * UI.
+ */
+/**
+ * Slide Down
+ */
+.slide-down {
+  transition: height 0.25s ease-out;
+  height: 0;
+  overflow: hidden;
+}
+
+/**
+* Slide Up
+*/
+.slide-up {
+  transition: height 0.25s ease-out;
+  overflow: hidden;
+}
+
 /*# sourceMappingURL=admin.css.map*/

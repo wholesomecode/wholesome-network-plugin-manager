@@ -145,6 +145,8 @@ function enqueue_admin_assets() : void {
  */
 function get_block_settings() : array {
 	return array(
-		'ajaxUrl' => esc_url( admin_url( 'admin-ajax.php', 'relative' ) ),
+		'activateString'   => esc_html__( 'Site Activate', 'wholesome-network-enabled-plugins' ),
+		'ajaxUrl'          => esc_url( admin_url( 'admin-ajax.php', 'relative' ) ),
+		'deactivateString' => esc_html__( 'Site Deactivate', 'wholesome-network-enabled-plugins' ),
 	);
 }

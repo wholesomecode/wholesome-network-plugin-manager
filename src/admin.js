@@ -108,9 +108,12 @@ wholesomeHelpers.handlePanelToggleClick = function() {
             e.preventDefault();
             const td = e.target.closest( 'td' );
             const panel = td.querySelector( '.network-enabled-plugins__toggle-panel' );
+            const icon = td.querySelector( '.network-enabled-plugins__icon' );
             if ( 'none' === panel.style.display ) {
                 wholesomeHelpers.slideDown( panel );
+                icon.innerHTML = '▲';
             } else {
+                icon.innerHTML = '▼';
                 wholesomeHelpers.slideUp( panel );
             }
             return false;

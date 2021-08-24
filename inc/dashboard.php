@@ -44,9 +44,9 @@ function render_network_plugin_notifications( $actions, $plugin_file, $plugin_da
 	$has_checked_inputs = strpos( $toggle_panel, 'checked="checked"' ) || strpos( $toggle_panel, "checked='checked'" );
 
 	if ( empty( $has_checked_inputs ) ) {
-		$action_link = sprintf( '<button class="network-enabled-plugins" data-toggle-network-panel><span class="network-enabled-plugins__text">%s</span>%s</button>', $link_inactive, $toggle_panel );
+		$action_link = sprintf( '<button class="network-enabled-plugins" data-toggle-network-panel><span class="network-enabled-plugins__text">%s</span><span class="network-enabled-plugins__icon">▼</span>%s</button>', $link_inactive, $toggle_panel );
 	} else {
-		$action_link = sprintf( '<button class="network-enabled-plugins active" data-toggle-network-panel><span class="network-enabled-plugins__text">%s</span>%s</button>', $link_active, $toggle_panel );
+		$action_link = sprintf( '<button class="network-enabled-plugins active" data-toggle-network-panel><span class="network-enabled-plugins__text">%s</span><span class="network-enabled-plugins__icon">▼</span>%s</button>', $link_active, $toggle_panel );
 	}
 
 	$activation_key = array_search( 'activate', array_keys( $actions ) );
@@ -67,6 +67,14 @@ function render_network_plugin_notifications( $actions, $plugin_file, $plugin_da
 function get_toggle_panel( $plugin_file ) {
 	$sites = get_sites();
 
+	uasort( 
+		$sites,
+		function( $a, $b ) {
+			// Compare site blog names alphabetically for sorting purposes.
+			return strcmp( $a->__get( 'blogname' ), $b->__get( 'blogname' ) );
+		}
+	);
+
 	ob_start();
 	?>
 	<div class="network-enabled-plugins__toggle-panel" style="display:none;" aria-hidden="true">
@@ -79,13 +87,14 @@ function get_toggle_panel( $plugin_file ) {
 			<p class="network-enabled-plugins__row">
 				<input 
 					<?php checked( is_plugin_active( $plugin_file ), true ); ?> 
+					class="network-enabled-plugins__toggle"
 					data-activate="<?php echo esc_url( str_replace( '/action/', '/activate/', $toggle_path ) ); ?>"
 					data-deactivate="<?php echo esc_url( str_replace( '/action/', '/deactivate/', $toggle_path ) ); ?>"
-					id="network-enabled-plugins__activation-toggle-<?php echo esc_attr( sanitize_title( $plugin_file ) ); ?>"
+					id="network-enabled-plugins__activation-toggle-<?php echo esc_attr( sanitize_title( $plugin_file ) ); ?>-<?php echo esc_attr( $site->blog_id ); ?>"
 					type="checkbox"
-					id="network-enabled-plugins__activation-toggle-<?php echo esc_attr( sanitize_title( $plugin_file ) ); ?>"
+					id="network-enabled-plugins__activation-toggle-<?php echo esc_attr( sanitize_title( $plugin_file ) ); ?>-<?php echo esc_attr( $site->blog_id ); ?>"
 				/> 
-				<label for="network-enabled-plugins__activation-toggle-<?php echo esc_attr( sanitize_title( $plugin_file ) ); ?>"><?php echo esc_html( get_bloginfo( 'name' ) ); ?></label>
+				<label for="network-enabled-plugins__activation-toggle-<?php echo esc_attr( sanitize_title( $plugin_file ) ); ?>-<?php echo esc_attr( $site->blog_id ); ?>"><?php echo esc_html( get_bloginfo( 'name' ) ); ?></label>
 			</p>
 			<?php
 			restore_current_blog();

@@ -81,11 +81,11 @@ function get_toggle_panel( $plugin_file ) {
 					<?php checked( is_plugin_active( $plugin_file ), true ); ?> 
 					data-activate="<?php echo esc_url( str_replace( '/action/', '/activate/', $toggle_path ) ); ?>"
 					data-deactivate="<?php echo esc_url( str_replace( '/action/', '/deactivate/', $toggle_path ) ); ?>"
-					id="network-enabled-plugins__activation-toggle-<?php echo esc_attr( $site->blog_id ); ?>"
+					id="network-enabled-plugins__activation-toggle-<?php echo esc_attr( sanitize_title( $plugin_file ) ); ?>"
 					type="checkbox"
-					id="network-enabled-plugins__activation-toggle-<?php echo esc_attr( $site->blog_id ); ?>"
+					id="network-enabled-plugins__activation-toggle-<?php echo esc_attr( sanitize_title( $plugin_file ) ); ?>"
 				/> 
-				<label for="network-enabled-plugins__activation-toggle-<?php echo esc_attr( $site->blog_id ); ?>"><?php echo esc_html( get_bloginfo( 'name' ) ); ?></label>
+				<label for="network-enabled-plugins__activation-toggle-<?php echo esc_attr( sanitize_title( $plugin_file ) ); ?>"><?php echo esc_html( get_bloginfo( 'name' ) ); ?></label>
 			</p>
 			<?php
 			restore_current_blog();

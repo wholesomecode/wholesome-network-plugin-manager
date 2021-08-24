@@ -171,6 +171,10 @@ wholesomeHelpers.setNetworkActiveStatus = function () {
   tableRows.forEach(row => {
     var text = row.querySelector('.network-enabled-plugins__text');
 
+    if (row.classList.contains('active') && !row.classList.contains('active--network')) {
+      return;
+    }
+
     if (row.querySelector('.network-enabled-plugins__toggle-panel input:checked')) {
       row.classList.remove('inactive');
       row.classList.add('active');

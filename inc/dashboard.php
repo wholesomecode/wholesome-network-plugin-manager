@@ -5,6 +5,12 @@
  * @package wholesome-network-enabled-plugins
  */
 
+// @todo.
+// - Rename plugin to something more sensible
+// - Refactor CSS
+// - Sort the settings page (remove title, and perhaps make a parent settings page)
+// - Sanity check all files and make sure everything is in its right place.
+
 namespace Wholesome\NetworkEnabledPlugins\Dashboard; // @codingStandardsIgnoreLine
 
 if ( ! defined( 'ABSPATH' ) ) {

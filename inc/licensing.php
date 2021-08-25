@@ -2,10 +2,10 @@
 /**
  * Plugin Licensing.
  *
- * @package wholesome-network-enabled-plugins
+ * @package wholesome-network-plugin-manager
  */
 
-namespace Wholesome\NetworkEnabledPlugins\Licensing; // @codingStandardsIgnoreLine
+namespace Wholesome\NetworkPluginManager\Licensing; // @codingStandardsIgnoreLine
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -16,9 +16,9 @@ if ( ! defined( 'WP_FS__PRODUCT_8886_MULTISITE' ) ) {
 	define( 'WP_FS__PRODUCT_8886_MULTISITE', true );
 }
 
-use const Wholesome\NetworkEnabledPlugins\PLUGIN_SLUG;
-use const Wholesome\NetworkEnabledPlugins\ROOT_DIR;
-use const Wholesome\NetworkEnabledPlugins\ROOT_FILE;
+use const Wholesome\NetworkPluginManager\PLUGIN_SLUG;
+use const Wholesome\NetworkPluginManager\ROOT_DIR;
+use const Wholesome\NetworkPluginManager\ROOT_FILE;
 
 /**
  * Setup
@@ -26,9 +26,9 @@ use const Wholesome\NetworkEnabledPlugins\ROOT_FILE;
  * @return void
  */
 function setup() : void {
-	add_filter( 'fs_redirect_on_activation_' . PLUGIN_SLUG, 'Wholesome\NetworkEnabledPlugins\Activation\\limit_redirect', 10 );
-	add_filter( 'plugin_action_links_' . basename( ROOT_DIR ) . '/' . basename( ROOT_FILE ), 'Wholesome\NetworkEnabledPlugins\Activation\\remove_activation_action', 100 );
-	add_filter( 'network_admin_plugin_action_links_' . basename( ROOT_DIR ) . '/' . basename( ROOT_FILE ), 'Wholesome\NetworkEnabledPlugins\Activation\\alter_network_actions', 100 );
+	add_filter( 'fs_redirect_on_activation_' . PLUGIN_SLUG, 'Wholesome\NetworkPluginManager\Activation\\limit_redirect', 10 );
+	add_filter( 'plugin_action_links_' . basename( ROOT_DIR ) . '/' . basename( ROOT_FILE ), 'Wholesome\NetworkPluginManager\Activation\\remove_activation_action', 100 );
+	add_filter( 'network_admin_plugin_action_links_' . basename( ROOT_DIR ) . '/' . basename( ROOT_FILE ), 'Wholesome\NetworkPluginManager\Activation\\alter_network_actions', 100 );
 	License::get_instance();
 }
 
@@ -80,7 +80,7 @@ class License {
 		$this->license = fs_dynamic_init(
 			array(
 				'id'               => '8886',
-				'slug'             => 'wholesome-network-enabled-plugins',
+				'slug'             => 'wholesome-network-plugin-manager',
 				'type'             => 'plugin',
 				'public_key'       => 'pk_910466319ed2b50f026a278e0bd17',
 				'is_premium'       => true,
@@ -91,7 +91,7 @@ class License {
 				'menu'             => array(
 					'menu' => array(
 						'slug'       => 'settings.php',
-						'first-path' => 'settings.php?page=wholesome-network-enabled-plugins-account',
+						'first-path' => 'settings.php?page=wholesome-network-plugin-manager-account',
 						'contact'    => false,
 						'support'    => false,
 						'network'    => true,

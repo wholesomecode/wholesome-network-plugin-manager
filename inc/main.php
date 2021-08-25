@@ -2,10 +2,12 @@
 /**
  * Main plugin file.
  *
- * @package wholesome-network-enabled-plugins
+ * @package wholesome-network-plugin-manager
  */
 
-namespace Wholesome\NetworkEnabledPlugins; // @codingStandardsIgnoreLine
+namespace Wholesome\NetworkPluginManager; // @codingStandardsIgnoreLine
+
+use const Wholesome\NetworkPluginManager\Dashboard\REST_ENDPOINT;
 
 const OPTION_PLUGIN_VERSION = PLUGIN_PREFIX . '_version';
 
@@ -23,7 +25,7 @@ function setup() : void {
 	plugin_updated();
 
 	// Load text domain.
-	load_plugin_textdomain( 'wholesome-network-enabled-plugins', false, ROOT_DIR . '\languages' );
+	load_plugin_textdomain( 'wholesome-network-plugin-manager', false, ROOT_DIR . '\languages' );
 
 	// Enqueue Assets.
 	add_action( 'admin_enqueue_scripts', __NAMESPACE__ . '\\enqueue_admin_assets', 10 );
@@ -90,7 +92,7 @@ function enqueue_admin_assets() : void {
 
 	if ( ! file_exists( $admin_asset_path ) ) {
 		throw new \Error(
-			esc_html__( 'You need to run `npm start` or `npm run build` in the root of the plugin "wholesome-network-enabled-plugins" first.', 'wholesome-network-enabled-plugins' )
+			esc_html__( 'You need to run `npm start` or `npm run build` in the root of the plugin "wholesome-network-plugin-manager" first.', 'wholesome-network-plugin-manager' )
 		);
 	}
 
@@ -122,13 +124,13 @@ function enqueue_admin_assets() : void {
 
 	wp_localize_script(
 		PLUGIN_SLUG . '-admin-scripts',
-		'WholesomeNetworkEnabledPluginsSettings',
+		'WholesomeNetworkPluginManagerSettings',
 		$block_settings
 	);
 
 	wp_set_script_translations(
 		PLUGIN_SLUG . '-admin-scripts',
-		'wholesome-network-enabled-plugins',
+		'wholesome-network-plugin-manager',
 		ROOT_DIR . '\languages'
 	);
 }
@@ -145,8 +147,11 @@ function enqueue_admin_assets() : void {
  */
 function get_block_settings() : array {
 	return array(
-		'activateString'   => esc_html__( 'Site Activate', 'wholesome-network-enabled-plugins' ),
-		'ajaxUrl'          => esc_url( admin_url( 'admin-ajax.php', 'relative' ) ),
-		'deactivateString' => esc_html__( 'Site Deactivate', 'wholesome-network-enabled-plugins' ),
+		'activateString'      => esc_html__( 'Site Activate', 'wholesome-network-plugin-manager' ),
+		'ajaxUrl'             => esc_url( admin_url( 'admin-ajax.php', 'relative' ) ),
+		'deactivateString'    => esc_html__( 'Site Deactivate', 'wholesome-network-plugin-manager' ),
+		'dismissNoticeString' => esc_html__( 'Dismiss this notice.', 'wholesome-network-plugin-manager' ),
+		'restNonce'           => wp_create_nonce( 'wp_rest' ),
+		'restUrl'             => get_rest_url() . REST_ENDPOINT,
 	);
 }

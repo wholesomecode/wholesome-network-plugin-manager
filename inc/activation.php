@@ -2,20 +2,20 @@
 /**
  * Activation file.
  *
- * @package wholesome-network-enabled-plugins
+ * @package wholesome-network-plugin-manager
  */
 
-namespace Wholesome\NetworkEnabledPlugins\Activation; // @codingStandardsIgnoreLine
+namespace Wholesome\NetworkPluginManager\Activation; // @codingStandardsIgnoreLine
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-use Wholesome\NetworkEnabledPlugins\Licensing;
+use Wholesome\NetworkPluginManager\Licensing;
 
-use const Wholesome\NetworkEnabledPlugins\PLUGIN_SLUG;
-use const Wholesome\NetworkEnabledPlugins\ROOT_DIR;
-use const Wholesome\NetworkEnabledPlugins\ROOT_FILE;
+use const Wholesome\NetworkPluginManager\PLUGIN_SLUG;
+use const Wholesome\NetworkPluginManager\ROOT_DIR;
+use const Wholesome\NetworkPluginManager\ROOT_FILE;
 
 /**
  * Setup
@@ -48,8 +48,8 @@ function check_if_multisite() {
 		$is_multisite = false;
 		?>
 		<div class="notice notice-error is-dismissible">
-			<?php // Translators: Network Enabled Plugins must be enabled on a multisite network. ?>
-			<p><?php printf( esc_html__( '%1$sNetwork Enabled Plugins%2$s must be enabled on a multisite network.', 'wholesome-network-enabled-plugins' ), '<strong>', '</strong>' ); ?></p>
+			<?php // Translators: Network Plugin Manager must be enabled on a multisite network. ?>
+			<p><?php printf( esc_html__( '%1$sNetwork Plugin Manager%2$s must be enabled on a multisite network.', 'wholesome-network-plugin-manager' ), '<strong>', '</strong>' ); ?></p>
 		</div>
 		<?php
 	}
@@ -59,8 +59,8 @@ function check_if_multisite() {
 		$network_admin_plugins_url = network_admin_url( 'plugins.php' );
 		?>
 		<div class="notice notice-error is-dismissible">
-			<?php // Translators: Network Enabled Plugins must be enabled on the network plugins page. ?>
-			<p><?php printf( esc_html__( '%1$sNetwork Enabled Plugins%2$s must be activated on the %3$snetwork admin plugins page%4$s.', 'wholesome-network-enabled-plugins' ), '<strong>', '</strong>', '<a href="' . esc_url( $network_admin_plugins_url ) . '">', '</a>' ); ?></p>
+			<?php // Translators: Network Plugin Manager must be enabled on the network plugins page. ?>
+			<p><?php printf( esc_html__( '%1$sNetwork Plugin Manager%2$s must be activated on the %3$snetwork admin plugins page%4$s.', 'wholesome-network-plugin-manager' ), '<strong>', '</strong>', '<a href="' . esc_url( $network_admin_plugins_url ) . '">', '</a>' ); ?></p>
 		</div>
 		<?php
 	}
@@ -104,7 +104,7 @@ function remove_activation_action( $actions ) {
  */
 function alter_network_actions( $actions ) {
 	unset( $actions[ 'activate-license ' . PLUGIN_SLUG ] );
-	$actions['settings'] = sprintf( '<a href="settings.php?page=%1$s-account">%2$s</a>', PLUGIN_SLUG, esc_html__( 'Settings', 'wholesome-network-enabled-plugins' ) );
+	$actions['settings'] = sprintf( '<a href="settings.php?page=%1$s-account">%2$s</a>', PLUGIN_SLUG, esc_html__( 'Settings', 'wholesome-network-plugin-manager' ) );
 	return $actions;
 }
 
@@ -115,7 +115,7 @@ function order_menu_items() {
 	remove_menu_page( PLUGIN_SLUG );
 	remove_submenu_page( PLUGIN_SLUG, PLUGIN_SLUG . '-account' );
 
-	$plugin_title = esc_html__( 'Network Enabled Plugins', 'wholesome-network-enabled-plugins' );
+	$plugin_title = esc_html__( 'Network Plugin Manager', 'wholesome-network-plugin-manager' );
 	$licensing    = Licensing\get_instance();
 	$url = PLUGIN_SLUG . '-account';
 

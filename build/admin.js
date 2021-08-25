@@ -112,7 +112,7 @@ document.addEventListener('DOMContentLoaded', () => {
     return;
   }
 
-  wholesomeHelpers.deactivatePluginLinks();
+  wholesomeHelpers.toggleActivationLinks();
   wholesomeHelpers.setNetworkActiveStatus();
   wholesomeHelpers.detachPanel();
   wholesomeHelpers.handlePanelToggleClick();
@@ -136,22 +136,25 @@ wholesomeHelpers.toggleActivationPluginFetch = async function (path) {
   }
 };
 /**
- * Deactivate Plugin Buttons.
+ * Toggle Activation Plugin Buttons.
  * 
- * Click listeners for the deactivate links.
+ * Click listeners for the deactivate and activate links.
  */
 
 
-wholesomeHelpers.deactivatePluginLinks = function () {
-  const deactivateCheckboxes = document.querySelectorAll('[data-deactivate]');
+wholesomeHelpers.toggleActivationLinks = function () {
+  const deactivateCheckboxes = document.querySelectorAll('[data-toggle-activation-link]');
   deactivateCheckboxes.forEach(checkbox => {
     checkbox.addEventListener('change', e => {
       e.preventDefault();
+      const pathRoot = WholesomeNetworkPluginManagerSettings.restUrl;
+      const path = 'site/' + e.target.attributes['data-site'].value + '/plugin/' + e.target.attributes['data-plugin'].value + '/?_wpnonce=' + WholesomeNetworkPluginManagerSettings.restNonce;
+      let result = '';
 
       if (e.target.checked) {
-        wholesomeHelpers.toggleActivationPluginFetch(e.target.attributes['data-activate'].value);
+        wholesomeHelpers.toggleActivationPluginFetch(pathRoot + '/activate/' + path).then(response => response.json()).then(response => wholesomeHelpers.createAdminNotice(response));
       } else {
-        wholesomeHelpers.toggleActivationPluginFetch(e.target.attributes['data-deactivate'].value);
+        wholesomeHelpers.toggleActivationPluginFetch(pathRoot + '/deactivate/' + path).then(response => response.json()).then(response => wholesomeHelpers.createAdminNotice(response));
       }
 
       wholesomeHelpers.setNetworkActiveStatus();
@@ -169,19 +172,19 @@ wholesomeHelpers.deactivatePluginLinks = function () {
 wholesomeHelpers.setNetworkActiveStatus = function () {
   const tableRows = document.querySelectorAll('table tr');
   tableRows.forEach(row => {
-    var text = row.querySelector('.network-enabled-plugins__text');
+    var text = row.querySelector('.network-plugin-manager__text');
 
     if (row.classList.contains('active') && !row.classList.contains('active--network')) {
       return;
     }
 
-    if (row.querySelector('.network-enabled-plugins__toggle-panel input:checked')) {
+    if (row.querySelector('.network-plugin-manager__toggle-panel input:checked')) {
       row.classList.remove('inactive');
       row.classList.add('active');
       row.classList.add('active--network');
 
       if (text) {
-        row.querySelector('.network-enabled-plugins__text').innerHTML = WholesomeNetworkEnabledPluginsSettings.deactivateString;
+        row.querySelector('.network-plugin-manager__text').innerHTML = WholesomeNetworkPluginManagerSettings.deactivateString;
       }
     } else {
       row.classList.remove('active');
@@ -189,14 +192,14 @@ wholesomeHelpers.setNetworkActiveStatus = function () {
       row.classList.add('inactive');
 
       if (text) {
-        row.querySelector('.network-enabled-plugins__text').innerHTML = WholesomeNetworkEnabledPluginsSettings.activateString;
+        row.querySelector('.network-plugin-manager__text').innerHTML = WholesomeNetworkPluginManagerSettings.activateString;
       }
     }
   });
 };
 
 wholesomeHelpers.detachPanel = function () {
-  const panels = document.querySelectorAll('.network-enabled-plugins__toggle-panel');
+  const panels = document.querySelectorAll('.network-plugin-manager__toggle-panel');
   panels.forEach(panel => {
     const td = panel.closest('td');
     td.insertBefore(panel, td.querySelector('.toggle-row'));
@@ -209,13 +212,17 @@ wholesomeHelpers.handlePanelToggleClick = function () {
     button.addEventListener('click', e => {
       e.preventDefault();
       const td = e.target.closest('td');
-      const panel = td.querySelector('.network-enabled-plugins__toggle-panel');
-      const icon = td.querySelector('.network-enabled-plugins__icon');
+      const panel = td.querySelector('.network-plugin-manager__toggle-panel');
+      const icon = td.querySelector('.network-plugin-manager__icon');
 
       if ('none' === panel.style.display) {
+        button.setAttribute('aria-expanded', 'true');
+        panel.setAttribute('aria-hidden', 'false');
         wholesomeHelpers.slideDown(panel);
         icon.innerHTML = '▲';
       } else {
+        button.setAttribute('aria-expanded', 'false');
+        panel.setAttribute('aria-hidden', 'true');
         icon.innerHTML = '▼';
         wholesomeHelpers.slideUp(panel);
       }
@@ -265,6 +272,33 @@ wholesomeHelpers.slideUp = function (element) {
     element.classList.remove('slide-up');
     element.style.height = '';
   }, 250);
+};
+/**
+ * Create Admin Notice.
+ */
+
+
+wholesomeHelpers.createAdminNotice = function (message) {
+  document.querySelectorAll('.updated.notice.is-dismissible').forEach(element => element.remove());
+  const div = document.createElement('div');
+  div.setAttribute('aria-live', 'polite');
+  div.classList.add('updated', 'notice', 'is-dismissible', 'network-plugin-manager__notice');
+  const p = document.createElement('p');
+  p.innerHTML = message;
+  div.append(p);
+  const button = document.createElement('button');
+  button.setAttribute('type', 'button');
+  button.classList.add('notice-dismiss');
+  const span = document.createElement('span');
+  span.classList.add('screen-reader-text');
+  span.innerHTML = WholesomeNetworkPluginManagerSettings.dismissNoticeString;
+  button.append(span);
+  div.append(button);
+  var area = document.querySelector('.wrap > h2');
+  area.parentNode.insertBefore(div, area);
+  button.addEventListener('click', function () {
+    div.remove();
+  });
 };
 
 /***/ }),

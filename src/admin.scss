@@ -1,7 +1,7 @@
 /**
  * License Screen.
  */
-.network-admin.admin_page_wholesome-network-enabled-plugins {
+.network-admin.admin_page_wholesome-network-plugin-manager {
     .fs-multisite-options-container {
         display: none;
     }
@@ -47,16 +47,28 @@ body.plugins-php.network-admin {
         }
     }
 
-    .network-enabled-plugins__row {
+    .network-plugin-manager__row {
+        align-items: center;
+        border-bottom: 1px dotted rgba( 0, 0, 0, 0.1 );
         display: flex;
         flex-direction: row-reverse;
         justify-content: space-between;
         padding-top: 5px;
-        padding-bottom: 5px;
+        padding-bottom: 1em;
+        position: relative;
     
         label {
             flex: 1;
+            margin-top: 9px;
             padding-right: 5px;
+
+            @media only screen and (max-width: 782px) {
+                margin-top: 5px;
+            }
+        }
+
+        &:last-of-type {
+            border-bottom: none;
         }
     }
 }
@@ -66,7 +78,7 @@ body.plugins-php.network-admin {
 /**
  * Buttons.
  */
-button.network-enabled-plugins {
+button.network-plugin-manager {
     background-color: unset;
     border: unset;
     color: #2271b1;
@@ -87,7 +99,7 @@ button.network-enabled-plugins {
 /**
  * Panel.
  */
-.network-enabled-plugins__toggle-panel {
+.network-plugin-manager__toggle-panel {
     overflow: hidden;
 }
 
@@ -98,7 +110,7 @@ button.network-enabled-plugins {
 /**
  * Toggle.
  */
-.network-enabled-plugins__icon {
+.network-plugin-manager__icon {
     color: #bbb;
     cursor: pointer;
     font-size: 90%;
@@ -106,14 +118,14 @@ button.network-enabled-plugins {
     position: relative;
 }
 
-input[type="checkbox"].network-enabled-plugins__toggle {
+input[type="checkbox"].network-plugin-manager__toggle {
     -webkit-appearance: none;
 	-webkit-tap-highlight-color: transparent;
     background-color: transparent;
     border: 0;
     box-shadow: unset;
     cursor: pointer;
-    margin-right: 24px;
+    margin-right: 22px;
     outline: 0;
 	position: relative;
 	
@@ -128,30 +140,40 @@ input[type="checkbox"].network-enabled-plugins__toggle {
         content: '';
         display: inline-block;
         height: 22px;
-        margin-right: 20px;
         width: 38px;
+
+        @media only screen and (max-width: 782px) {
+            height: 26px;
+            width: 42px;
+        }
     }
 
     &:before {
         background: rgb( 255, 255, 255 );
         border-radius: 50%;
-        box-shadow: 1px 1px 1px rgba( 0, 0, 0, 0.6 );
+        box-shadow: 1px 1px 1px rgba( 0, 0, 0, 0.3 );
         content: '';
         display: block;
         height: 20px;
         left: 1px;
         position: absolute;
         top: 1px;
+        transition: left .2s;
         width: 20px;
+
+        @media only screen and (max-width: 782px) {
+            height: 24px;
+            width: 24px;
+        }
     }
 
     &:checked:after {
-        background: #16a085;
+        background: #4f94d4;
     }
 
     &:checked:before {
-        left: 21px;
-        top: 4px;
+        left: 17px;
+        margin: unset;
     }
 }
 

@@ -1,7 +1,7 @@
 /**
  * License Screen.
  */
-.network-admin.admin_page_wholesome-network-enabled-plugins .fs-multisite-options-container {
+.network-admin.admin_page_wholesome-network-plugin-manager .fs-multisite-options-container {
   display: none;
 }
 
@@ -33,22 +33,34 @@ body.plugins-php.network-admin .plugins .active.active--network + .plugin-update
   background-color: #fcf9e8;
   border-color: #f5e6ab;
 }
-body.plugins-php.network-admin .network-enabled-plugins__row {
+body.plugins-php.network-admin .network-plugin-manager__row {
+  align-items: center;
+  border-bottom: 1px dotted rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: row-reverse;
   justify-content: space-between;
   padding-top: 5px;
-  padding-bottom: 5px;
+  padding-bottom: 1em;
+  position: relative;
 }
-body.plugins-php.network-admin .network-enabled-plugins__row label {
+body.plugins-php.network-admin .network-plugin-manager__row label {
   flex: 1;
+  margin-top: 9px;
   padding-right: 5px;
+}
+@media only screen and (max-width: 782px) {
+  body.plugins-php.network-admin .network-plugin-manager__row label {
+    margin-top: 5px;
+  }
+}
+body.plugins-php.network-admin .network-plugin-manager__row:last-of-type {
+  border-bottom: none;
 }
 
 /**
  * Buttons.
  */
-button.network-enabled-plugins {
+button.network-plugin-manager {
   background-color: unset;
   border: unset;
   color: #2271b1;
@@ -56,10 +68,10 @@ button.network-enabled-plugins {
   margin: unset;
   padding: unset;
 }
-button.network-enabled-plugins:hover, button.network-enabled-plugins:focus {
+button.network-plugin-manager:hover, button.network-plugin-manager:focus {
   color: #135e96;
 }
-button.network-enabled-plugins:focus {
+button.network-plugin-manager:focus {
   box-shadow: 0 0 0 1px #4f94d4, 0 0 2px 1px rgba(79, 148, 212, 0.8);
   outline: 1px solid transparent;
 }
@@ -67,7 +79,7 @@ button.network-enabled-plugins:focus {
 /**
  * Panel.
  */
-.network-enabled-plugins__toggle-panel {
+.network-plugin-manager__toggle-panel {
   overflow: hidden;
 }
 
@@ -77,7 +89,7 @@ button.network-enabled-plugins:focus {
 /**
  * Toggle.
  */
-.network-enabled-plugins__icon {
+.network-plugin-manager__icon {
   color: #bbb;
   cursor: pointer;
   font-size: 90%;
@@ -85,48 +97,60 @@ button.network-enabled-plugins:focus {
   position: relative;
 }
 
-input[type=checkbox].network-enabled-plugins__toggle {
+input[type=checkbox].network-plugin-manager__toggle {
   -webkit-appearance: none;
   -webkit-tap-highlight-color: transparent;
   background-color: transparent;
   border: 0;
   box-shadow: unset;
   cursor: pointer;
-  margin-right: 24px;
+  margin-right: 22px;
   outline: 0;
   position: relative;
 }
-input[type=checkbox].network-enabled-plugins__toggle:focus {
+input[type=checkbox].network-plugin-manager__toggle:focus {
   box-shadow: unset;
 }
-input[type=checkbox].network-enabled-plugins__toggle:after {
+input[type=checkbox].network-plugin-manager__toggle:after {
   background: rgba(196, 195, 195, 0.55);
   border-radius: 20px;
   clear: both;
   content: "";
   display: inline-block;
   height: 22px;
-  margin-right: 20px;
   width: 38px;
 }
-input[type=checkbox].network-enabled-plugins__toggle:before {
+@media only screen and (max-width: 782px) {
+  input[type=checkbox].network-plugin-manager__toggle:after {
+    height: 26px;
+    width: 42px;
+  }
+}
+input[type=checkbox].network-plugin-manager__toggle:before {
   background: white;
   border-radius: 50%;
-  box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.6);
+  box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
   content: "";
   display: block;
   height: 20px;
   left: 1px;
   position: absolute;
   top: 1px;
+  transition: left 0.2s;
   width: 20px;
 }
-input[type=checkbox].network-enabled-plugins__toggle:checked:after {
-  background: #16a085;
+@media only screen and (max-width: 782px) {
+  input[type=checkbox].network-plugin-manager__toggle:before {
+    height: 24px;
+    width: 24px;
+  }
 }
-input[type=checkbox].network-enabled-plugins__toggle:checked:before {
-  left: 21px;
-  top: 4px;
+input[type=checkbox].network-plugin-manager__toggle:checked:after {
+  background: #4f94d4;
+}
+input[type=checkbox].network-plugin-manager__toggle:checked:before {
+  left: 17px;
+  margin: unset;
 }
 
 /**

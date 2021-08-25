@@ -4,7 +4,7 @@
  *
  * Plugin Name:       Network Plugin Manager
  * Plugin URI:        https://wholesomecode.ltd/plugins/network-plugin-manager
- * Description:       Network disabled a plugin only to find it still active on one or more sub-sites? Use this plugin to identify where it is still enabled and quickly deactivate it.
+ * Description:       Have you ever network disabled a plugin only to find it still active on one or more sub-sites? Use Network Plugin Manager to easily identify which sites it is still active on and quickly deactivate it.
  * Requires at least: 5.8
  * Requires PHP:      7.0
  * Version:           1.0.0

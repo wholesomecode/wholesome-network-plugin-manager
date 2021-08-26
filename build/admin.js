@@ -153,12 +153,15 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "toggleActivationLinks", function() { return toggleActivationLinks; });
-/* harmony import */ var _rest__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./rest */ "./src/js/rest.js");
+/* harmony import */ var _dashboard__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./dashboard */ "./src/js/dashboard.js");
 /* harmony import */ var _notices__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./notices */ "./src/js/notices.js");
+/* harmony import */ var _rest__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./rest */ "./src/js/rest.js");
 /**
  * Buttons.
  */
 // Import modules.
+// Import modules.
+
 
 
 /**
@@ -176,12 +179,12 @@ function toggleActivationLinks() {
       const path = 'site/' + e.target.attributes['data-site'].value + '/plugin/' + e.target.attributes['data-plugin'].value + '/?_wpnonce=' + WholesomeNetworkPluginManagerSettings.restNonce;
 
       if (e.target.checked) {
-        Object(_rest__WEBPACK_IMPORTED_MODULE_0__["fetchEndpoint"])(pathRoot + '/activate/' + path).then(response => response.json()).then(response => Object(_notices__WEBPACK_IMPORTED_MODULE_1__["createAdminNotice"])(response));
+        Object(_rest__WEBPACK_IMPORTED_MODULE_2__["fetchEndpoint"])(pathRoot + '/activate/' + path).then(response => response.json()).then(response => Object(_notices__WEBPACK_IMPORTED_MODULE_1__["createAdminNotice"])(response));
       } else {
-        Object(_rest__WEBPACK_IMPORTED_MODULE_0__["fetchEndpoint"])(pathRoot + '/deactivate/' + path).then(response => response.json()).then(response => Object(_notices__WEBPACK_IMPORTED_MODULE_1__["createAdminNotice"])(response));
+        Object(_rest__WEBPACK_IMPORTED_MODULE_2__["fetchEndpoint"])(pathRoot + '/deactivate/' + path).then(response => response.json()).then(response => Object(_notices__WEBPACK_IMPORTED_MODULE_1__["createAdminNotice"])(response));
       }
 
-      setNetworkActiveStatus();
+      Object(_dashboard__WEBPACK_IMPORTED_MODULE_0__["setNetworkActiveStatus"])();
       return false;
     });
   });

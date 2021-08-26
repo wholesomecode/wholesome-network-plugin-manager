@@ -3,8 +3,10 @@
  */
 
 // Import modules.
-import { fetchEndpoint } from './rest';
+// Import modules.
+import { setNetworkActiveStatus } from './dashboard';
 import { createAdminNotice } from './notices';
+import { fetchEndpoint } from './rest';
 
 /**
  * Toggle Activation Plugin Buttons.

@@ -30,7 +30,6 @@ function setup() : void {
 	}
 
 	add_action( 'admin_notices', __NAMESPACE__ . '\\check_if_multisite', 10 );
-	// add_action( 'network_admin_menu', __NAMESPACE__ . '\\order_menu_items', $fs_priority );
 	add_filter( 'fs_redirect_on_activation_' . PLUGIN_SLUG, __NAMESPACE__ . '\\limit_redirect', 10 );
 	add_filter( 'plugin_action_links_' . basename( ROOT_DIR ) . '/' . basename( ROOT_FILE ), __NAMESPACE__ . '\\remove_activation_action', 100 );
 	add_filter( 'network_admin_plugin_action_links_' . basename( ROOT_DIR ) . '/' . basename( ROOT_FILE ), __NAMESPACE__ . '\\alter_network_actions', 100 );
@@ -71,31 +70,6 @@ function check_if_multisite() {
 		}
 		// @codingStandardsIgnoreEnd.
 		deactivate_plugins( ROOT_FILE );
-	}
-}
-
-/**
- * Order Menu Items.
- */
-function order_menu_items() {
-	remove_menu_page( PLUGIN_SLUG );
-	remove_submenu_page( PLUGIN_SLUG, PLUGIN_SLUG . '-account' );
-
-	$plugin_title = esc_html__( 'Network Plugin Manager', 'wholesome-network-plugin-manager' );
-	$licensing    = Licensing\get_instance();
-	$url = PLUGIN_SLUG . '-account';
-
-	add_submenu_page(
-		'settings.php',
-		$plugin_title,
-		$plugin_title,
-		'manage_options',
-		$url,
-		array( $licensing , '_account_page_render' ),
-	);
-
-	if ( isset( $_GET['page'] ) && $url === $_GET['page'] ) {
-		$licensing->_account_page_load();
 	}
 }
 

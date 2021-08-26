@@ -23,7 +23,7 @@ const REST_ENDPOINT = 'wholesome/network-plugin-manager/v1';
  * @return void
  */
 function setup() : void {
-	add_filter( 'network_admin_plugin_action_links', __NAMESPACE__ . '\\render_network_plugin_notifications', 10, 4 );
+	add_filter( 'network_admin_plugin_action_links', __NAMESPACE__ . '\\render_network_plugin_toggle_button', 10, 4 );
 	add_action( 'rest_api_init', __NAMESPACE__ . '\\register_rest_deactivate_plugin', 10 );
 }
 
@@ -37,7 +37,7 @@ function setup() : void {
  *
  * @return array
  */
-function render_network_plugin_notifications( $actions, $plugin_file, $plugin_data, $context ) {
+function render_network_plugin_toggle_button( $actions, $plugin_file, $plugin_data, $context ) {
 	if ( is_plugin_active_for_network( $plugin_file ) ) {
 		return $actions;
 	}

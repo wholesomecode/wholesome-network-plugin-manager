@@ -16,9 +16,7 @@ if ( ! defined( 'WP_FS__PRODUCT_8886_MULTISITE' ) ) {
 	define( 'WP_FS__PRODUCT_8886_MULTISITE', true );
 }
 
-use const Wholesome\NetworkPluginManager\PLUGIN_SLUG;
 use const Wholesome\NetworkPluginManager\ROOT_DIR;
-use const Wholesome\NetworkPluginManager\ROOT_FILE;
 
 /**
  * Setup
@@ -26,10 +24,6 @@ use const Wholesome\NetworkPluginManager\ROOT_FILE;
  * @return void
  */
 function setup() : void {
-	add_filter( 'fs_redirect_on_activation_' . PLUGIN_SLUG, 'Wholesome\NetworkPluginManager\Activation\\limit_redirect', 10 );
-	add_filter( 'plugin_action_links_' . basename( ROOT_DIR ) . '/' . basename( ROOT_FILE ), 'Wholesome\NetworkPluginManager\Activation\\remove_activation_action', 100 );
-	add_filter( 'network_admin_plugin_action_links_' . basename( ROOT_DIR ) . '/' . basename( ROOT_FILE ), 'Wholesome\NetworkPluginManager\Activation\\alter_network_actions', 100 );
-
 	// Init License Class.
 	License::get_instance();
 }

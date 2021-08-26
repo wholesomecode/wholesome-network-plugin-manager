@@ -31,10 +31,9 @@ function setup() : void {
 
 	add_action( 'admin_notices', __NAMESPACE__ . '\\check_if_multisite', 10 );
 	add_action( 'network_admin_menu', __NAMESPACE__ . '\\order_menu_items', $fs_priority );
-
-	if ( ! Licensing\is_active() ) {
-		return;
-	}
+	add_filter( 'fs_redirect_on_activation_' . PLUGIN_SLUG, __NAMESPACE__ . '\\limit_redirect', 10 );
+	add_filter( 'plugin_action_links_' . basename( ROOT_DIR ) . '/' . basename( ROOT_FILE ), __NAMESPACE__ . '\\remove_activation_action', 100 );
+	add_filter( 'network_admin_plugin_action_links_' . basename( ROOT_DIR ) . '/' . basename( ROOT_FILE ), __NAMESPACE__ . '\\alter_network_actions', 100 );
 }
 
 /**
@@ -76,6 +75,31 @@ function check_if_multisite() {
 }
 
 /**
+ * Order Menu Items.
+ */
+function order_menu_items() {
+	remove_menu_page( PLUGIN_SLUG );
+	remove_submenu_page( PLUGIN_SLUG, PLUGIN_SLUG . '-account' );
+
+	$plugin_title = esc_html__( 'Network Plugin Manager', 'wholesome-network-plugin-manager' );
+	$licensing    = Licensing\get_instance();
+	$url = PLUGIN_SLUG . '-account';
+
+	add_submenu_page(
+		'settings.php',
+		$plugin_title,
+		$plugin_title,
+		'manage_options',
+		$url,
+		array( $licensing , '_account_page_render' ),
+	);
+
+	if ( isset( $_GET['page'] ) && $url === $_GET['page'] ) {
+		$licensing->_account_page_load();
+	}
+}
+
+/**
  * Limit redirect.
  *
  * @return bool
@@ -106,29 +130,4 @@ function alter_network_actions( $actions ) {
 	unset( $actions[ 'activate-license ' . PLUGIN_SLUG ] );
 	$actions['settings'] = sprintf( '<a href="settings.php?page=%1$s-account">%2$s</a>', PLUGIN_SLUG, esc_html__( 'Settings', 'wholesome-network-plugin-manager' ) );
 	return $actions;
-}
-
-/**
- * Order Menu Items.
- */
-function order_menu_items() {
-	remove_menu_page( PLUGIN_SLUG );
-	remove_submenu_page( PLUGIN_SLUG, PLUGIN_SLUG . '-account' );
-
-	$plugin_title = esc_html__( 'Network Plugin Manager', 'wholesome-network-plugin-manager' );
-	$licensing    = Licensing\get_instance();
-	$url = PLUGIN_SLUG . '-account';
-
-	add_submenu_page(
-		'settings.php',
-		$plugin_title,
-		$plugin_title,
-		'manage_options',
-		$url,
-		array( $licensing , '_account_page_render' ),
-	);
-
-	if ( isset( $_GET['page'] ) && $url === $_GET['page'] ) {
-		$licensing->_account_page_load();
-	}
 }

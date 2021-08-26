@@ -6,7 +6,7 @@
  */
 
 // @todo.
-// - Refactor CSS.
+// - Refactor CSS / JS
 // - Sort the settings page (remove title, and perhaps make a parent settings page).
 // - Sanity check all files and make sure everything is in its right place.
 

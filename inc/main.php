@@ -37,9 +37,11 @@ function setup() : void {
 	 */
 	require_once ROOT_DIR . '/inc/activation.php';
 	require_once ROOT_DIR . '/inc/dashboard.php';
+	require_once ROOT_DIR . '/inc/settings.php';
 
 	// Run features.
 	Activation\setup();
+	Settings\setup();
 
 	if ( ! Licensing\is_active() ) {
 		return;

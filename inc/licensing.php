@@ -86,11 +86,9 @@ class License {
 				'is_org_compliant' => false,
 				'menu'             => array(
 					'menu' => array(
-						'slug'       => 'settings.php',
-						'first-path' => 'settings.php?page=wholesome-network-plugin-manager-account',
+						'slug'       => 'plugins.php',
 						'contact'    => false,
 						'support'    => false,
-						'network'    => true,
 					),
 				),
 			)

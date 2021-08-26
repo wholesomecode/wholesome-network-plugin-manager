@@ -86,8 +86,8 @@ class License {
 				'is_org_compliant' => false,
 				'menu'             => array(
 					'slug'           => 'wholesome-network-plugin-manager',
-					'contact'        => true,
-					'support'        => true,
+					'contact'        => false,
+					'support'        => false,
 					'network'        => true,
 					'parent'         => array(
 						'slug' => 'settings.php',

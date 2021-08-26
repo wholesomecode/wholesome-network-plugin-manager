@@ -19,6 +19,7 @@
 		"@wordpress/i18n": "^4.2.1"
 	},
 	"devDependencies": {
-		"@wordpress/scripts": "^17.1.0"
+		"@wordpress/scripts": "^17.1.0",
+		"webpack-zip-files-plugin": "^1.0.0"
 	}
 }

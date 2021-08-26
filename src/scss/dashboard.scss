@@ -1,0 +1,47 @@
+/**
+ * Dashboard.
+ */
+body.plugins-php.network-admin {
+    .plugins {
+        .active.active--network {
+            th.check-column,
+            td {
+                background-color: #fcf9e8;
+            }
+
+            th.check-column {
+                border-color: #f5e6ab;
+            }
+        }
+
+        .active.active--network + .plugin-update-tr td {
+            background-color: #fcf9e8;
+            border-color: #f5e6ab;
+        }
+    }
+
+    .network-plugin-manager__row {
+        align-items: center;
+        border-bottom: 1px dotted rgba( 0, 0, 0, 0.1 );
+        display: flex;
+        flex-direction: row-reverse;
+        justify-content: space-between;
+        padding-top: 5px;
+        padding-bottom: 1em;
+        position: relative;
+    
+        label {
+            flex: 1;
+            margin-top: 9px;
+            padding-right: 5px;
+
+            @media only screen and (max-width: 782px) {
+                margin-top: 5px;
+            }
+        }
+
+        &:last-of-type {
+            border-bottom: none;
+        }
+    }
+}

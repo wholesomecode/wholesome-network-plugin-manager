@@ -6,9 +6,8 @@
  */
 
 // @todo.
-// - Refactor CSS / JS
-// - Sort the settings page (remove title, and perhaps make a parent settings page).
 // - Sanity check all files and make sure everything is in its right place.
+// - Sort the settings page (remove title, and perhaps make a parent settings page).
 
 namespace Wholesome\NetworkPluginManager\Dashboard; // @codingStandardsIgnoreLine
 
@@ -90,7 +89,7 @@ function get_toggle_panel( $plugin_file ) {
 			<li class="network-plugin-manager__row">
 				<input 
 					<?php checked( is_plugin_active( $plugin_file ), true ); ?> 
-					class="network-plugin-manager__toggle"
+					class="network-plugin-manager__toggle toggle"
 					data-toggle-activation-link
 					data-plugin="<?php echo esc_attr( str_replace( '/', '__', $plugin_file ) ); ?>"
 					data-site="<?php echo esc_attr( $site->blog_id ); ?>"

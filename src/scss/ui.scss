@@ -1,0 +1,83 @@
+/**
+ * UI.
+ */
+
+/**
+ * Toggle.
+ */
+input[type="checkbox"].toggle {
+    -webkit-appearance: none;
+	-webkit-tap-highlight-color: transparent;
+    background-color: transparent;
+    border: 0;
+    box-shadow: unset;
+    cursor: pointer;
+    margin-right: 22px;
+    outline: 0;
+	position: relative;
+	
+    &:focus {
+        box-shadow: unset;
+    }
+
+    &:after {
+        background: rgba( 196, 195, 195, 0.55 );
+        border-radius: 20px;
+        clear: both;
+        content: '';
+        display: inline-block;
+        height: 22px;
+        width: 38px;
+
+        @media only screen and (max-width: 782px) {
+            height: 26px;
+            width: 42px;
+        }
+    }
+
+    &:before {
+        background: rgb( 255, 255, 255 );
+        border-radius: 50%;
+        box-shadow: 1px 1px 1px rgba( 0, 0, 0, 0.3 );
+        content: '';
+        display: block;
+        height: 20px;
+        left: 1px;
+        position: absolute;
+        top: 1px;
+        transition: left .2s;
+        width: 20px;
+
+        @media only screen and (max-width: 782px) {
+            height: 24px;
+            width: 24px;
+        }
+    }
+
+    &:checked:after {
+        background: #4f94d4;
+    }
+
+    &:checked:before {
+        left: 17px;
+        margin: unset;
+    }
+}
+
+
+/**
+ * Slide Down
+ */
+.slide-down {
+    transition: height .25s ease-out;
+    height: 0;
+    overflow: hidden;
+}
+
+/**
+* Slide Up
+*/
+.slide-up {
+    transition: height .25s ease-out;
+    overflow: hidden;
+}

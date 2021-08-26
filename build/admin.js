@@ -95,81 +95,121 @@
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
-/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _admin_scss__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./admin.scss */ "./src/admin.scss");
+/* harmony import */ var _admin_scss__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./admin.scss */ "./src/admin.scss");
+/* harmony import */ var _js_dashboard__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./js/dashboard */ "./src/js/dashboard.js");
+/* harmony import */ var _js_panel__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./js/panel */ "./src/js/panel.js");
+/* harmony import */ var _js_buttons__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./js/buttons */ "./src/js/buttons.js");
+/**
+ * Admin.
+ * 
+ * The main file that runs in wp-admin.
+ */
+// Import SCSS.
+ // Import modules.
 
 
-const wholesomeHelpers = {};
+
+
 /**
  * Run.
  */
 
 document.addEventListener('DOMContentLoaded', () => {
-  const network_plugins_page = document.querySelector('body.plugins-php.network-admin');
+  const networkPluginsPage = document.querySelector('body.plugins-php.network-admin');
 
-  if (!network_plugins_page) {
+  if (!networkPluginsPage) {
     return;
   }
 
-  wholesomeHelpers.toggleActivationLinks();
-  wholesomeHelpers.setNetworkActiveStatus();
-  wholesomeHelpers.detachPanel();
-  wholesomeHelpers.handlePanelToggleClick();
+  Object(_js_panel__WEBPACK_IMPORTED_MODULE_2__["detachPanel"])();
+  Object(_js_panel__WEBPACK_IMPORTED_MODULE_2__["handlePanelToggleClick"])();
+  Object(_js_dashboard__WEBPACK_IMPORTED_MODULE_1__["setNetworkActiveStatus"])();
+  Object(_js_buttons__WEBPACK_IMPORTED_MODULE_3__["toggleActivationLinks"])();
 });
-/**
- * Deactivate Plugin Fetch.
- * 
- * Fetch command to deactivate the plugin.
- * 
- * @param {string} path API Path.
- * @returns {object}
- */
 
-wholesomeHelpers.toggleActivationPluginFetch = async function (path) {
-  try {
-    const response = await fetch(path);
-    return response;
-  } catch (e) {
-    // Error.
-    return e;
-  }
-};
+/***/ }),
+
+/***/ "./src/admin.scss":
+/*!************************!*\
+  !*** ./src/admin.scss ***!
+  \************************/
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+// extracted by mini-css-extract-plugin
+
+
+/***/ }),
+
+/***/ "./src/js/buttons.js":
+/*!***************************!*\
+  !*** ./src/js/buttons.js ***!
+  \***************************/
+/*! exports provided: toggleActivationLinks */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "toggleActivationLinks", function() { return toggleActivationLinks; });
+/* harmony import */ var _rest__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./rest */ "./src/js/rest.js");
+/* harmony import */ var _notices__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./notices */ "./src/js/notices.js");
+/**
+ * Buttons.
+ */
+// Import modules.
+
+
 /**
  * Toggle Activation Plugin Buttons.
  * 
  * Click listeners for the deactivate and activate links.
  */
 
-
-wholesomeHelpers.toggleActivationLinks = function () {
+function toggleActivationLinks() {
   const deactivateCheckboxes = document.querySelectorAll('[data-toggle-activation-link]');
   deactivateCheckboxes.forEach(checkbox => {
     checkbox.addEventListener('change', e => {
       e.preventDefault();
       const pathRoot = WholesomeNetworkPluginManagerSettings.restUrl;
       const path = 'site/' + e.target.attributes['data-site'].value + '/plugin/' + e.target.attributes['data-plugin'].value + '/?_wpnonce=' + WholesomeNetworkPluginManagerSettings.restNonce;
-      let result = '';
 
       if (e.target.checked) {
-        wholesomeHelpers.toggleActivationPluginFetch(pathRoot + '/activate/' + path).then(response => response.json()).then(response => wholesomeHelpers.createAdminNotice(response));
+        Object(_rest__WEBPACK_IMPORTED_MODULE_0__["fetchEndpoint"])(pathRoot + '/activate/' + path).then(response => response.json()).then(response => Object(_notices__WEBPACK_IMPORTED_MODULE_1__["createAdminNotice"])(response));
       } else {
-        wholesomeHelpers.toggleActivationPluginFetch(pathRoot + '/deactivate/' + path).then(response => response.json()).then(response => wholesomeHelpers.createAdminNotice(response));
+        Object(_rest__WEBPACK_IMPORTED_MODULE_0__["fetchEndpoint"])(pathRoot + '/deactivate/' + path).then(response => response.json()).then(response => Object(_notices__WEBPACK_IMPORTED_MODULE_1__["createAdminNotice"])(response));
       }
 
-      wholesomeHelpers.setNetworkActiveStatus();
+      setNetworkActiveStatus();
       return false;
     });
   });
-};
+}
+;
+
+/***/ }),
+
+/***/ "./src/js/dashboard.js":
+/*!*****************************!*\
+  !*** ./src/js/dashboard.js ***!
+  \*****************************/
+/*! exports provided: setNetworkActiveStatus */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setNetworkActiveStatus", function() { return setNetworkActiveStatus; });
+/**
+ * Dashboard.
+ */
+
 /**
  * Add Network Active Class.
  * 
  * Add network active class to rows that have network active plugins.
  */
-
-
-wholesomeHelpers.setNetworkActiveStatus = function () {
+function setNetworkActiveStatus() {
   const tableRows = document.querySelectorAll('table tr');
   tableRows.forEach(row => {
     var text = row.querySelector('.network-plugin-manager__text');
@@ -196,89 +236,31 @@ wholesomeHelpers.setNetworkActiveStatus = function () {
       }
     }
   });
-};
+}
+;
 
-wholesomeHelpers.detachPanel = function () {
-  const panels = document.querySelectorAll('.network-plugin-manager__toggle-panel');
-  panels.forEach(panel => {
-    const td = panel.closest('td');
-    td.insertBefore(panel, td.querySelector('.toggle-row'));
-  });
-};
+/***/ }),
 
-wholesomeHelpers.handlePanelToggleClick = function () {
-  const buttons = document.querySelectorAll('button[data-toggle-network-panel]');
-  buttons.forEach(button => {
-    button.addEventListener('click', e => {
-      e.preventDefault();
-      const td = e.target.closest('td');
-      const panel = td.querySelector('.network-plugin-manager__toggle-panel');
-      const icon = td.querySelector('.network-plugin-manager__icon');
+/***/ "./src/js/notices.js":
+/*!***************************!*\
+  !*** ./src/js/notices.js ***!
+  \***************************/
+/*! exports provided: createAdminNotice */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-      if ('none' === panel.style.display) {
-        button.setAttribute('aria-expanded', 'true');
-        panel.setAttribute('aria-hidden', 'false');
-        wholesomeHelpers.slideDown(panel);
-        icon.innerHTML = '▲';
-      } else {
-        button.setAttribute('aria-expanded', 'false');
-        panel.setAttribute('aria-hidden', 'true');
-        icon.innerHTML = '▼';
-        wholesomeHelpers.slideUp(panel);
-      }
-
-      return false;
-    });
-  });
-};
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createAdminNotice", function() { return createAdminNotice; });
 /**
- * Slide down with JQuery and JS.
- * @param {object} element Element.
+ * Notices.
  */
 
-
-wholesomeHelpers.slideDown = function (element) {
-  if ('block' === element.style.display) {
-    return;
-  }
-
-  element.style.height = 0;
-  element.classList.add('slide-down');
-  element.style.display = 'block';
-  element.style.height = `${element.scrollHeight}px`;
-  setTimeout(function () {
-    element.classList.remove('slide-down');
-    element.style.height = '';
-  }, 250);
-};
-/**
- * Slide up with JQuery and JS.
- * @param {object} element Element.
- */
-
-
-wholesomeHelpers.slideUp = function (element) {
-  if ('none' === element.style.display) {
-    return;
-  }
-
-  element.style.height = `${element.scrollHeight}px`;
-  element.classList.add('slide-up');
-  setTimeout(function () {
-    element.style.height = 0;
-  }, 10);
-  setTimeout(function () {
-    element.style.display = 'none';
-    element.classList.remove('slide-up');
-    element.style.height = '';
-  }, 250);
-};
 /**
  * Create Admin Notice.
+ * 
+ * @param {string} message Message.
  */
-
-
-wholesomeHelpers.createAdminNotice = function (message) {
+function createAdminNotice(message) {
   document.querySelectorAll('.updated.notice.is-dismissible').forEach(element => element.remove());
   const div = document.createElement('div');
   div.setAttribute('aria-live', 'polite');
@@ -299,32 +281,166 @@ wholesomeHelpers.createAdminNotice = function (message) {
   button.addEventListener('click', function () {
     div.remove();
   });
-};
+}
+;
 
 /***/ }),
 
-/***/ "./src/admin.scss":
-/*!************************!*\
-  !*** ./src/admin.scss ***!
-  \************************/
-/*! no exports provided */
+/***/ "./src/js/panel.js":
+/*!*************************!*\
+  !*** ./src/js/panel.js ***!
+  \*************************/
+/*! exports provided: detachPanel, handlePanelToggleClick */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-// extracted by mini-css-extract-plugin
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "detachPanel", function() { return detachPanel; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "handlePanelToggleClick", function() { return handlePanelToggleClick; });
+/* harmony import */ var _ui__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ui */ "./src/js/ui.js");
+/**
+ * Panel.
+ */
+// Import modules.
 
+/**
+ * Detach Panel.
+ * 
+ * Detaches the Panel from the Button on load.
+ */
+
+function detachPanel() {
+  const panels = document.querySelectorAll('.network-plugin-manager__toggle-panel');
+  panels.forEach(panel => {
+    const td = panel.closest('td');
+    td.insertBefore(panel, td.querySelector('.toggle-row'));
+  });
+}
+/**
+ * Handle Panel Toggle Click.
+ * 
+ * Expand and collapse the toggle panel.
+ */
+
+function handlePanelToggleClick() {
+  const buttons = document.querySelectorAll('button[data-toggle-network-panel]');
+  buttons.forEach(button => {
+    button.addEventListener('click', e => {
+      e.preventDefault();
+      const td = e.target.closest('td');
+      const panel = td.querySelector('.network-plugin-manager__toggle-panel');
+      const icon = td.querySelector('.network-plugin-manager__icon');
+
+      if ('none' === panel.style.display) {
+        button.setAttribute('aria-expanded', 'true');
+        panel.setAttribute('aria-hidden', 'false');
+        Object(_ui__WEBPACK_IMPORTED_MODULE_0__["slideDown"])(panel);
+        icon.innerHTML = '▲';
+      } else {
+        button.setAttribute('aria-expanded', 'false');
+        panel.setAttribute('aria-hidden', 'true');
+        icon.innerHTML = '▼';
+        Object(_ui__WEBPACK_IMPORTED_MODULE_0__["slideUp"])(panel);
+      }
+
+      return false;
+    });
+  });
+}
 
 /***/ }),
 
-/***/ "@wordpress/i18n":
-/*!******************************!*\
-  !*** external ["wp","i18n"] ***!
-  \******************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
+/***/ "./src/js/rest.js":
+/*!************************!*\
+  !*** ./src/js/rest.js ***!
+  \************************/
+/*! exports provided: fetchEndpoint */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-(function() { module.exports = window["wp"]["i18n"]; }());
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchEndpoint", function() { return fetchEndpoint; });
+/**
+ * REST.
+ */
+
+/**
+ * Fetch Endpoint.
+ * 
+ * Fetch command to activate and deactivate the plugin.
+ * 
+ * @param {string} path API Path.
+ * @returns {object}
+ */
+async function fetchEndpoint(path) {
+  try {
+    const response = await fetch(path);
+    return response;
+  } catch (e) {
+    // Error.
+    return e;
+  }
+}
+;
+
+/***/ }),
+
+/***/ "./src/js/ui.js":
+/*!**********************!*\
+  !*** ./src/js/ui.js ***!
+  \**********************/
+/*! exports provided: slideDown, slideUp */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "slideDown", function() { return slideDown; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "slideUp", function() { return slideUp; });
+/**
+ * UI.
+ */
+
+/**
+ * Slide down with JQuery and JS.
+ * @param {object} element Element.
+ */
+function slideDown(element) {
+  if ('block' === element.style.display) {
+    return;
+  }
+
+  element.style.height = 0;
+  element.classList.add('slide-down');
+  element.style.display = 'block';
+  element.style.height = `${element.scrollHeight}px`;
+  setTimeout(function () {
+    element.classList.remove('slide-down');
+    element.style.height = '';
+  }, 250);
+}
+;
+/**
+ * Slide up with JQuery and JS.
+ * @param {object} element Element.
+ */
+
+function slideUp(element) {
+  if ('none' === element.style.display) {
+    return;
+  }
+
+  element.style.height = `${element.scrollHeight}px`;
+  element.classList.add('slide-up');
+  setTimeout(function () {
+    element.style.height = 0;
+  }, 10);
+  setTimeout(function () {
+    element.style.display = 'none';
+    element.classList.remove('slide-up');
+    element.style.height = '';
+  }, 250);
+}
+;
 
 /***/ })
 

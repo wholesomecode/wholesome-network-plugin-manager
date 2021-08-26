@@ -1,27 +1,38 @@
 /**
- * License Screen.
+ * Admin.
+ *
+ * Admin SCSS.
  */
-.network-admin.admin_page_wholesome-network-plugin-manager .fs-multisite-options-container {
-  display: none;
-}
-
-/** 
- * Dashboard.
+/**
+ * Buttons.
  */
-.wholesome-network-active-plugins {
-  display: block;
-  margin-top: 14px;
-}
-.wholesome-network-active-plugins__label {
-  color: #000000;
-}
-
-body.plugins-php.network-admin .row-actions span.delete .wholesome-network-active-plugins a {
+button.network-plugin-manager {
+  background-color: unset;
+  border: unset;
   color: #2271b1;
+  cursor: pointer;
+  margin: unset;
+  padding: unset;
 }
-body.plugins-php.network-admin .row-actions span.delete .wholesome-network-active-plugins a:hover {
+button.network-plugin-manager:hover, button.network-plugin-manager:focus {
   color: #135e96;
 }
+button.network-plugin-manager:focus {
+  box-shadow: 0 0 0 1px #4f94d4, 0 0 2px 1px rgba(79, 148, 212, 0.8);
+  outline: 1px solid transparent;
+}
+
+.network-plugin-manager__icon {
+  color: #bbb;
+  cursor: pointer;
+  font-size: 90%;
+  margin-left: 5px;
+  position: relative;
+}
+
+/**
+ * Dashboard.
+ */
 body.plugins-php.network-admin .plugins .active.active--network th.check-column,
 body.plugins-php.network-admin .plugins .active.active--network td {
   background-color: #fcf9e8;
@@ -58,22 +69,13 @@ body.plugins-php.network-admin .network-plugin-manager__row:last-of-type {
 }
 
 /**
- * Buttons.
+ * Freemius.
  */
-button.network-plugin-manager {
-  background-color: unset;
-  border: unset;
-  color: #2271b1;
-  cursor: pointer;
-  margin: unset;
-  padding: unset;
-}
-button.network-plugin-manager:hover, button.network-plugin-manager:focus {
-  color: #135e96;
-}
-button.network-plugin-manager:focus {
-  box-shadow: 0 0 0 1px #4f94d4, 0 0 2px 1px rgba(79, 148, 212, 0.8);
-  outline: 1px solid transparent;
+/**
+ * License Screen.
+ */
+.network-admin.admin_page_wholesome-network-plugin-manager .fs-multisite-options-container {
+  display: none;
 }
 
 /**
@@ -89,15 +91,7 @@ button.network-plugin-manager:focus {
 /**
  * Toggle.
  */
-.network-plugin-manager__icon {
-  color: #bbb;
-  cursor: pointer;
-  font-size: 90%;
-  margin-left: 5px;
-  position: relative;
-}
-
-input[type=checkbox].network-plugin-manager__toggle {
+input[type=checkbox].toggle {
   -webkit-appearance: none;
   -webkit-tap-highlight-color: transparent;
   background-color: transparent;
@@ -108,10 +102,10 @@ input[type=checkbox].network-plugin-manager__toggle {
   outline: 0;
   position: relative;
 }
-input[type=checkbox].network-plugin-manager__toggle:focus {
+input[type=checkbox].toggle:focus {
   box-shadow: unset;
 }
-input[type=checkbox].network-plugin-manager__toggle:after {
+input[type=checkbox].toggle:after {
   background: rgba(196, 195, 195, 0.55);
   border-radius: 20px;
   clear: both;
@@ -121,12 +115,12 @@ input[type=checkbox].network-plugin-manager__toggle:after {
   width: 38px;
 }
 @media only screen and (max-width: 782px) {
-  input[type=checkbox].network-plugin-manager__toggle:after {
+  input[type=checkbox].toggle:after {
     height: 26px;
     width: 42px;
   }
 }
-input[type=checkbox].network-plugin-manager__toggle:before {
+input[type=checkbox].toggle:before {
   background: white;
   border-radius: 50%;
   box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
@@ -140,15 +134,15 @@ input[type=checkbox].network-plugin-manager__toggle:before {
   width: 20px;
 }
 @media only screen and (max-width: 782px) {
-  input[type=checkbox].network-plugin-manager__toggle:before {
+  input[type=checkbox].toggle:before {
     height: 24px;
     width: 24px;
   }
 }
-input[type=checkbox].network-plugin-manager__toggle:checked:after {
+input[type=checkbox].toggle:checked:after {
   background: #4f94d4;
 }
-input[type=checkbox].network-plugin-manager__toggle:checked:before {
+input[type=checkbox].toggle:checked:before {
   left: 17px;
   margin: unset;
 }

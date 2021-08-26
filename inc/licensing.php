@@ -85,10 +85,12 @@ class License {
 				'has_paid_plans'   => true,
 				'is_org_compliant' => false,
 				'menu'             => array(
-					'menu' => array(
-						'slug'       => 'plugins.php',
-						'contact'    => false,
-						'support'    => false,
+					'slug'           => 'wholesome-network-plugin-manager',
+					'contact'        => true,
+					'support'        => true,
+					'network'        => true,
+					'parent'         => array(
+						'slug' => 'settings.php',
 					),
 				),
 			)

@@ -5,8 +5,12 @@
 /**
  * License Screen.
  */
-.network-admin.admin_page_wholesome-network-plugin-manager {
+.network-admin.settings_page_wholesome-network-plugin-manager {
     .fs-multisite-options-container {
         display: none;
+    }
+
+    .wrap {
+        max-width: 600px;
     }
 }

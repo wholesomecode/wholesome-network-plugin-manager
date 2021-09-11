@@ -71,7 +71,7 @@ function render_network_plugin_toggle_button( $actions, $plugin_file, $plugin_da
 function get_toggle_panel( $plugin_file ) {
 	$sites = get_sites();
 
-	uasort( 
+	uasort(
 		$sites,
 		function( $a, $b ) {
 			// Compare site blog names alphabetically for sorting purposes.

@@ -10,22 +10,18 @@
 namespace Wholesome\NetworkPluginManager\Settings; // @codingStandardsIgnoreLine
 
 use const Wholesome\NetworkPluginManager\PLUGIN_PREFIX;
+use const Wholesome\NetworkPluginManager\PLUGIN_SLUG;
 
-const SETTING_ANALYTICS           = 'wholesome_examples_settings';
-const SETTING_ANALYTICS_KEY       = 'wholesome_examples_analytics_key';
-const SETTING_ANALYTICS_STATUS    = 'wholesome_examples_analytics_status';
-const SETTING_LOGGED_OUT          = 'wholesome_examples_logged_out';
-const SETTING_LOGGED_OUT_TEMPLATE = 'wholesome_examples_logged_out_template';
-
-const SETTING_ANALYTICS_SECTION  = 'wholesome_examples_settings_section';
-const SETTING_LOGGED_OUT_SECTION = 'wholesome_examples_logged_out_section';
+const SETTING_REPORT_BUG_SECTION      = PLUGIN_PREFIX . '__report_bug_section';
+const SETTING_REPORT_BUG              = PLUGIN_PREFIX . '__report_bug';
+const SETTING_REQUEST_FEATURE_SECTION = PLUGIN_PREFIX . '__request_feature_section';
+const SETTING_REQUEST_FEATURE         = PLUGIN_PREFIX . '__request_feature';
+const SETTING_MANAGE_ACCOUNT_SECTION  = PLUGIN_PREFIX . '__manage_account_section';
+const SETTING_MANAGE_ACCOUNT          = PLUGIN_PREFIX . '__manage_account';
+const SUPPORT_EMAIL                   = 'support@wholesomecode.ltd';
 
 /**
  * Setup
- *
- * - Register settings fields.
- * - Remove Settings React Render.
- * - Implement WP Settings API Render.
  *
  * @return void
  */
@@ -37,132 +33,58 @@ function setup() : void {
 /**
  * Register Settings Fields.
  *
- * The fields are already registered in the namespace WholesomeCode\WholesomeExamples\Settings,
- * this outputs their html using the WP Settings API.
- *
  * @return void
  */
 function register_setting_fields() : void {
 
 	// Add Section.
 	add_settings_section(
-		SETTING_LOGGED_OUT_SECTION,
-		__( 'Template Settings', 'wholesome-examples' ),
+		SETTING_REPORT_BUG_SECTION,
+		__( 'Report a Bug', 'wholesome-network-plugin-manager' ),
 		function() {
+			$subject = esc_html__( 'Network Plugin Manager - Bug Report', 'wholesome-network-plugin-manager' );
+			$content = esc_html__( 'Please describe the bug in as much detail as possible, provide step by step instructions on how it can be replicated and where possible provide screenshots.', 'wholesome-network-plugin-manager' );
 			?>
 			<p>
-				<?php esc_html_e( 'Template Settings.', 'wholesome-examples' ); ?>
+				<?php esc_html_e( 'Help us to keep the plugin running smoothly by reporting bugs. Use the button below to generate an email template so that you can report a bug.', 'wholesome-network-plugin-manager' ); ?>
 			</p>
+			<p class="submit">
+				<a href="mailto:<?php echo esc_html( SUPPORT_EMAIL ); ?>?subject=<?php echo esc_html( $subject ); ?>&body=<?php echo esc_html( $content ); ?>" class="button button-primary"><?php esc_html_e( 'Report Bug', 'wholesome-network-plugin-manager' ); ?></a></p>
 			<?php
 		},
-		SETTING_LOGGED_OUT
-	);
-
-	// Add field.
-	add_settings_field(
-		SETTING_LOGGED_OUT_TEMPLATE,
-		__( 'Template', 'wholesome-examples' ),
-		function() {
-			$value    = get_option( SETTING_LOGGED_OUT_TEMPLATE, '' );
-			$settings = apply_filters( PLUGIN_PREFIX . '_block_settings', [] );
-			?>
-			<select
-				class="regular-text"
-				name="<?php echo esc_attr( SETTING_LOGGED_OUT_TEMPLATE ); ?>"
-			>
-				<option
-					<?php selected( $value, '' ); ?>
-					value=""
-				>
-					<?php esc_html_e( 'Please Select...', 'wholesome-examples' ); ?>
-				</option>
-				<?php
-				foreach ( $settings['pageTemplates'] as $page_template ) {
-					?>
-					<option
-						<?php selected( $value, $page_template['value'] ); ?>
-						value="<?php echo esc_attr( $page_template['value'] ); ?>"
-					>
-						<?php echo esc_attr( $page_template['label'] ); ?>
-					</option>
-					<?php
-				}
-				?>
-			</select>
-			<p class="description">
-				<?php esc_html_e( 'Choose the template you wish to display instead of a membership post if a user is not logged in.', 'wholesome-examples' ); ?>
-			</p>
-			<?php
-		},
-		SETTING_LOGGED_OUT,
-		SETTING_LOGGED_OUT_SECTION
+		PLUGIN_SLUG
 	);
 
 	// Add Section.
 	add_settings_section(
-		SETTING_ANALYTICS_SECTION,
-		__( 'Google Analytics Settings', 'wholesome-examples' ),
+		SETTING_REQUEST_FEATURE_SECTION,
+		__( 'Request a Feature', 'wholesome-network-plugin-manager' ),
+		function() {
+			$subject = esc_html__( 'Network Plugin Manager - Feature Request', 'wholesome-network-plugin-manager' );
+			$content = esc_html__( 'Please describe your requested feature in as much detail as possible, provide step by step instructions on how you would like to to work, and if possible provide diagrams or annotated screenshots.', 'wholesome-network-plugin-manager' );
+			?>
+			<p>
+				<?php esc_html_e( 'Help us improve the plugin by requesting a feature. Use the button below to generate an email template so that you can request a feature. All feature requests are considered.', 'wholesome-network-plugin-manager' ); ?>
+			</p>
+			<p class="submit"><a href="mailto:<?php echo esc_html( SUPPORT_EMAIL ); ?>?subject=<?php echo esc_html( $subject ); ?>&body=<?php echo esc_html( $content ); ?>" class="button button-primary"><?php esc_html_e( 'Request Feature', 'wholesome-network-plugin-manager' ); ?></a></p>
+			<?php
+		},
+		PLUGIN_SLUG
+	);
+
+	// Add Section.
+	add_settings_section(
+		SETTING_MANAGE_ACCOUNT_SECTION,
+		__( 'Manage your Account', 'wholesome-network-plugin-manager' ),
 		function() {
 			?>
 			<p>
-				<?php esc_html_e( 'Google Analytics Settings.', 'wholesome-examples' ); ?>
+				<?php esc_html_e( 'Manage your account via the Freemius system.', 'wholesome-network-plugin-manager' ); ?>
 			</p>
+			<p class="submit"><a href="<?php echo esc_url( network_admin_url( 'settings.php?page=wholesome-network-plugin-manager-account' ) ); ?>" class="button button-primary"><?php esc_html_e( 'Manage Account', 'wholesome-network-plugin-manager' ); ?></a></p>
 			<?php
 		},
-		SETTING_ANALYTICS
-	);
-
-	// Add field.
-	add_settings_field(
-		SETTING_ANALYTICS_KEY,
-		__( 'Google Analytics Key', 'wholesome-examples' ),
-		function() {
-			$value = get_option( SETTING_ANALYTICS_KEY, '' );
-			?>
-			<input
-				class="regular-text"
-				name="<?php echo esc_attr( SETTING_ANALYTICS_KEY ); ?>"
-				type="text"
-				value="<?php echo esc_attr( $value ); ?>"
-			/>
-			<p class="description">
-				<?php esc_html_e( 'In order to use Google Analytics, you need to use an API key.', 'wholesome-examples' ); ?>
-			</p>
-			<?php
-		},
-		SETTING_ANALYTICS,
-		SETTING_ANALYTICS_SECTION
-	);
-
-	// Add field.
-	add_settings_field(
-		SETTING_ANALYTICS_STATUS,
-		__( 'Track Admin Users?', 'wholesome-examples' ),
-		function() {
-			$value = get_option( SETTING_ANALYTICS_STATUS, '' );
-			?>
-			<fieldset>
-				<legend class="screen-reader-text">
-					<span><?php esc_html_e( 'Track Admin Users?', 'wholesome-examples' ); ?></span>
-				</legend>
-				<label for="blog_public">
-					<input
-						<?php checked( $value ); ?>
-						id="<?php echo esc_attr( SETTING_ANALYTICS_STATUS ); ?>"
-						name="<?php echo esc_attr( SETTING_ANALYTICS_STATUS ); ?>"
-						type="checkbox"
-						value="1"
-					>
-						<?php esc_html_e( 'Track Admin Users?', 'wholesome-examples' ); ?>
-					</label>
-					<p class="description">
-						<?php esc_html_e( 'Would you like to track views of logged-in admin accounts?', 'wholesome-examples' ); ?>
-					</p>
-			</fieldset>
-			<?php
-		},
-		SETTING_ANALYTICS,
-		SETTING_ANALYTICS_SECTION
+		PLUGIN_SLUG
 	);
 }
 
@@ -176,10 +98,10 @@ function register_setting_fields() : void {
 function add_settings_page() : void {
 	add_submenu_page(
 		'settings.php',
-		__( 'Wholesome Examples Settings', 'wholesome-examples' ),
-		__( 'Wholesome Examples Settings', 'wholesome-examples' ),
+		__( 'Network Plugin Manager', 'wholesome-network-plugin-manager' ),
+		__( 'Network Plugin Manager', 'wholesome-network-plugin-manager' ),
 		'manage_options',
-		'wholesome-network-plugin-manager',
+		PLUGIN_SLUG,
 		__NAMESPACE__ . '\\render_html'
 	);
 }
@@ -195,19 +117,16 @@ function render_html() : void {
 	?>
 	<div class="wrap">
 		<h2>
-			<?php esc_html_e( 'Wholesome Examples Settings', 'wholesome-examples' ); ?>
+			<?php esc_html_e( 'Network Plugin Manager', 'wholesome-network-plugin-manager' ); ?>
 		</h2>
 
-		<form action="options.php" method="POST">
-			<?php settings_fields( SETTING_LOGGED_OUT ); ?>
-			<?php do_settings_sections( SETTING_LOGGED_OUT ); ?>
-			<?php submit_button(); ?>
-		</form>
+		<p>
+			<?php esc_html_e( 'Thank you for choosing Network Plugin Manager. Please choose from the following options.', 'wholesome-network-plugin-manager' ); ?>
+		</p>
 
 		<form action="options.php" method="POST">
-			<?php settings_fields( SETTING_ANALYTICS ); ?>
-			<?php do_settings_sections( SETTING_ANALYTICS ); ?>
-			<?php submit_button(); ?>
+			<?php settings_fields( PLUGIN_SLUG ); ?>
+			<?php do_settings_sections( PLUGIN_SLUG ); ?>
 		</form>
 	</div>
 	<?php

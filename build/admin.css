@@ -69,20 +69,23 @@ body.plugins-php.network-admin .network-plugin-manager__row:last-of-type {
 }
 
 /**
+ * Panel.
+ */
+.network-plugin-manager__toggle-panel {
+  overflow: hidden;
+}
+
+/**
  * Freemius.
  */
 /**
  * License Screen.
  */
-.network-admin.admin_page_wholesome-network-plugin-manager .fs-multisite-options-container {
+.network-admin.settings_page_wholesome-network-plugin-manager .fs-multisite-options-container {
   display: none;
 }
-
-/**
- * Panel.
- */
-.network-plugin-manager__toggle-panel {
-  overflow: hidden;
+.network-admin.settings_page_wholesome-network-plugin-manager .wrap {
+  max-width: 600px;
 }
 
 /**

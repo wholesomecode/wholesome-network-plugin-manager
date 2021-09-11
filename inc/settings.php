@@ -120,10 +120,6 @@ function render_html() : void {
 			<?php esc_html_e( 'Network Plugin Manager', 'wholesome-network-plugin-manager' ); ?>
 		</h2>
 
-		<p>
-			<?php esc_html_e( 'Thank you for choosing Network Plugin Manager. Please choose from the following options.', 'wholesome-network-plugin-manager' ); ?>
-		</p>
-
 		<form action="options.php" method="POST">
 			<?php settings_fields( PLUGIN_SLUG ); ?>
 			<?php do_settings_sections( PLUGIN_SLUG ); ?>

@@ -15,6 +15,7 @@ module.exports = {
                 { src: path.join(__dirname, './inc'), dist: 'inc' },
                 { src: path.join(__dirname, './languages'), dist: 'languages' },
                 { src: path.join(__dirname, './plugin.php'), dist: 'plugin.php' },
+                { src: path.join(__dirname, './readme.txt'), dist: 'readme.txt' },
             ],
             output: path.join(__dirname, './dist/wholesome-network-plugin-manager'),
             format: 'zip',

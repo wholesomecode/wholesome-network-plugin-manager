@@ -14,10 +14,14 @@ body.plugins-php.network-admin {
             }
         }
 
-        .active.active--network + .plugin-update-tr td {
-            background-color: #fcf9e8;
-            border-color: #f5e6ab;
-        }
+        .active.active--network + .plugin-update-tr {
+            td {
+                background-color: #fcf9e8;
+                border-color: #f5e6ab;
+                border-left: 4px solid #f5e6ab;
+                border-top: none;
+            }
+        } 
     }
 
     .network-plugin-manager__row {

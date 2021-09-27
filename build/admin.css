@@ -43,6 +43,8 @@ body.plugins-php.network-admin .plugins .active.active--network th.check-column 
 body.plugins-php.network-admin .plugins .active.active--network + .plugin-update-tr td {
   background-color: #fcf9e8;
   border-color: #f5e6ab;
+  border-left: 4px solid #f5e6ab;
+  border-top: none;
 }
 body.plugins-php.network-admin .network-plugin-manager__row {
   align-items: center;

@@ -4,7 +4,7 @@ Tags: multisite, network, plugin manager
 Requires at least: 5.8
 Tested up to: 5.8
 Requires PHP: 7.3.5
-Stable tag: 1.0.0
+Stable tag: 1.0.1
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -22,3 +22,6 @@ To install Network Plugin Manager:
 
 = 1.0.0 =
 * Initial Plugin.
+
+= 1.0.1 =
+* Minor CSS update.

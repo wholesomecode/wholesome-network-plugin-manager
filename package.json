@@ -1,7 +1,7 @@
 {
 	"name": "wholesome-network-plugin-manager",
-	"version": "1.0.0",
-	"description": "View where your plugins are enabled from the Network Plugins screen.",
+	"version": "1.0.1",
+	"description": "Have you ever network disabled a plugin only to find it still active on one or more sub-sites? Use Network Plugin Manager to easily identify which sites your plugin is active on and quickly deactivate it.",
 	"author": "wholesomecode",
 	"license": "GPL-2.0-or-later",
 	"main": "build/index.js",

@@ -25,3 +25,9 @@ To install Network Plugin Manager:
 
 = 1.0.1 =
 * Minor CSS update.
+
+= 1.1.0 =
+* Added GitHub Updator
+
+= 1.1.1 =
+* Fixed issue with get_plugins function availability

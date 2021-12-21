@@ -7,7 +7,7 @@
  * Description:       Have you ever network disabled a plugin only to find it still active on one or more sub-sites? Use Network Plugin Manager to easily identify which sites your plugin is active on and quickly deactivate it.
  * Requires at least: 5.8
  * Requires PHP:      7.0
- * Version:           1.1.0
+ * Version:           1.1.1
  * Author:            Wholesome Code <hello@wholesomecode.ltd>
  * Author URI:        https://wholesomecode.ltd
  * License:           GPL-2.0-or-later
@@ -25,7 +25,7 @@ const PLUGIN_PREFIX   = 'wholesome_network_plugin_manager';
 const PLUGIN_REQUIRES = '5.8';
 const PLUGIN_SLUG     = 'wholesome-network-plugin-manager';
 const PLUGIN_TESTED   = '5.8.2';
-const PLUGIN_VERSION  = '1.1.0';
+const PLUGIN_VERSION  = '1.1.1';
 const ROOT_DIR        = __DIR__;
 const ROOT_FILE       = __FILE__;
 

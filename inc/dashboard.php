@@ -81,7 +81,7 @@ function get_toggle_panel( $plugin_file ) {
 
 	ob_start();
 	?>
-	<ul id="network-plugin-manager__panel-toggle-<?php echo esc_attr( sanitize_title( $plugin_file) ); ?>" class="network-plugin-manager__toggle-panel" style="display:none;" aria-hidden="true">
+	<ul id="network-plugin-manager__panel-toggle-<?php echo esc_attr( sanitize_title( $plugin_file ) ); ?>" class="network-plugin-manager__toggle-panel" style="display:none;" aria-hidden="true">
 		<?php
 		foreach ( $sites as $site ) {
 			switch_to_blog( $site->blog_id );
@@ -117,13 +117,18 @@ function register_rest_deactivate_plugin() {
 		'/(?P<action>([a-z])+)/site/(?P<id>([0-9])+)/plugin/(?P<plugin>([A-Za-z0-9\_\?\.\-])+)/',
 		array(
 			'callback'            => function ( $request ) {
+
+				if ( ! function_exists( 'get_plugins' ) ) {
+					require_once ABSPATH . 'wp-admin/includes/plugin.php';
+				}
+
 				$action    = isset( $request['action'] ) ? esc_attr( $request['action'] ) : null;
 				$blog_name = '';
 				$id        = isset( $request['id'] ) ? esc_attr( $request['id'] ) : null;
 				$message   = '';
 				$plugin    = isset( $request['plugin'] ) ? esc_attr( $request['plugin'] ) : null;
 				$plugin    = '/' . str_replace( '__', '/', $plugin );
-				$plugins = get_plugins();
+				$plugins   = get_plugins();
 				$plugin_name = $plugins[ ltrim( $plugin, '/' ) ]['Name'];
 
 				if ( ! function_exists( 'activate_plugins' ) || ! function_exists( 'deactivate_plugins' ) ) {

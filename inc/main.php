@@ -42,11 +42,6 @@ function setup() : void {
 	// Run features.
 	Activation\setup();
 	Settings\setup();
-
-	if ( ! Licensing\is_active() ) {
-		return;
-	}
-
 	Dashboard\setup();
 }
 

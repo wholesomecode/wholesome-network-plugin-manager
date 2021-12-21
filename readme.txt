@@ -10,6 +10,19 @@ License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
 Have you ever network disabled a plugin only to find it still active on one or more sub-sites? Use Network Plugin Manager to easily identify which sites your plugin is active on and quickly deactivate it.
 
+== Welcome Developer ==
+
+Thank you for descovering my plugin. I hope that you find it useful, either as
+a standalone plugin for your WordPress website, or as parts for something 
+amazing that you are working on.
+
+If you want to make changes to the plugin just `cd` into this directory and 
+run `npm install && npm start`. That will compile all of the SCSS and JavaScript files.
+
+If you look in `/src/index.js` you will find commented out paths to other versions
+of this plugin. You can find corrosponding tutorials that explore those files further
+at [Wholesome Code](https://wholesomecode.ltd).
+
 == Installation ==
 
 To install Network Plugin Manager:
